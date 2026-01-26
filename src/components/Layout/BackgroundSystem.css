@@ -1,0 +1,91 @@
+.background-system {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.star-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+    /* Increased from 0.6 */
+}
+
+.circuit-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+    /* Increased from 0.4 */
+    filter: drop-shadow(0 0 5px var(--accent));
+    /* Add glow */
+}
+
+.circuit-path {
+    fill: none;
+    stroke: url(#trace-grad);
+    stroke-width: 2;
+    /* Increased from 1 */
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawTrace 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 2px var(--accent));
+}
+
+.circuit-path.delay-1 {
+    animation-delay: 2s;
+}
+
+.circuit-node {
+    fill: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    animation: pulseNode 3s infinite;
+}
+
+@keyframes drawTrace {
+    0% {
+        stroke-dashoffset: 1000;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    40% {
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        stroke-dashoffset: -1000;
+        opacity: 0;
+    }
+}
+
+@keyframes pulseNode {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+}

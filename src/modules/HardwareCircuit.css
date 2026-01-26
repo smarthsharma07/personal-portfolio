@@ -1,0 +1,182 @@
+/* Hardware Circuit Animation Styles */
+.hardware-circuit-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.6;
+}
+
+.central-chip {
+    /* Now used as a generic class for main nodes */
+    position: absolute;
+    width: 60px;
+    /* Smaller base size */
+    height: 60px;
+    border: 2px solid var(--accent);
+    background: rgba(0, 20, 30, 0.9);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Distributed Chip Positions */
+.chip-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+}
+
+.chip-top-left {
+    top: 15%;
+    left: 10%;
+}
+
+.chip-top-right {
+    top: 20%;
+    right: 10%;
+}
+
+.chip-bottom-left {
+    bottom: 20%;
+    left: 15%;
+}
+
+.chip-bottom-right {
+    bottom: 15%;
+    right: 12%;
+}
+
+.chip-mid-left {
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+}
+
+.chip-mid-right {
+    top: 40%;
+    right: 5%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+}
+
+.chip-inner {
+    width: 70%;
+    height: 70%;
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, transparent 100%);
+    border: 1px dashed var(--accent);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: chipPulse 4s infinite ease-in-out;
+}
+
+.chip-logo {
+    color: var(--accent);
+    font-size: 2rem;
+    filter: drop-shadow(0 0 5px var(--accent));
+}
+
+.circuit-traces-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.trace-line {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2;
+    stroke-opacity: 0.3;
+}
+
+.signal-packet {
+    fill: #fff;
+    filter: drop-shadow(0 0 4px #fff);
+    animation: signalTravel 3s infinite linear;
+}
+
+.signal-packet.delayed {
+    animation-delay: 1.5s;
+}
+
+/* Pins on the chip */
+.chip-pin {
+    position: absolute;
+    width: 8px;
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 5px var(--accent);
+}
+
+.pin-top {
+    left: 50%;
+    top: -2px;
+    transform: translateX(-50%) rotate(90deg);
+}
+
+.pin-right {
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.pin-bottom {
+    left: 50%;
+    bottom: -2px;
+    transform: translateX(-50%) rotate(90deg);
+}
+
+.pin-left {
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@keyframes chipPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+        opacity: 0.8;
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+        opacity: 1;
+    }
+}
+
+@keyframes signalTravel {
+    0% {
+        offset-distance: 0%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        offset-distance: 100%;
+        opacity: 0;
+    }
+}
