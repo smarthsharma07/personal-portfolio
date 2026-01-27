@@ -1,4 +1,49 @@
 import React, { useEffect, useRef } from 'react'
+import ProjectCard from '../components/ProjectCard'
+
+const softwareProjects = [
+    {
+        id: 'SW-001',
+        title: 'LifeMirror',
+        description:
+            'Static smart dashboard prototype built for the LifeMirror 3.0 Hackathon. Designed modular UI components and structured layouts for future smart mirror integrations.',
+        techStack: ['JavaScript', 'HTML', 'CSS', 'TypeScript', 'Node.js', 'Express.js', 'Firebase', 'MongoDB'],
+        githubUrl: 'https://github.com/smarthsharma07/lifemirror',
+        liveUrl: 'https://lifemirror-theta.vercel.app/login',
+        status: 'HACKATHON'
+    },
+    {
+        id: 'SW-002',
+        title: 'WeatherWise',
+        description:
+            'Weather forecasting web application that retrieves real-time data from external APIs and displays location-based weather insights with graceful error handling.',
+        techStack: ['JavaScript', 'Flask', 'Python', 'HTML', 'CSS'],
+        githubUrl: 'https://github.com/smarthsharma07/weatherwise',
+        liveUrl: 'https://weatherwise-lake.vercel.app/',
+        status: 'DEPLOYED'
+    },
+    {
+        id: 'SW-003',
+        title: 'HRM System',
+        description:
+            'Human Resource Management system developed during the Hack4Delhi hackathon. Implements employee management workflows and role-based access concepts.',
+        techStack: ['JavaScript', 'React.js', 'Firebase', 'Bootstrap 5'],
+        githubUrl: 'https://github.com/smarthsharma07/mcd-hrms',
+        liveUrl: 'https://mcd-hrms.web.app/',
+        status: 'HACKATHON'
+    },
+    {
+        id: 'SW-004',
+        title: 'Personal Portfolio Website',
+        description:
+            'Personal developer portfolio showcasing projects, technical skills, and academic background with a clean and responsive design.',
+        techStack: ['JavaScript', 'HTML', 'Vite', 'CSS'],
+        githubUrl: 'https://github.com/smarthsharma07/portfolio',
+        liveUrl: '',
+        status: 'ACTIVE'
+    }
+];
+
 
 const SoftwareModule = () => {
     const canvasRef = useRef(null)
@@ -54,15 +99,15 @@ const SoftwareModule = () => {
     return (
         <div className="module-container" style={{ position: 'relative', overflow: 'hidden' }}>
             {/* Digital Rain Background */}
-            <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.3 }} />
+            <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.5 }} />
 
-            <div style={{ position: 'relative', zIndex: 1 }}>
+            <div style={{ position: 'relative', zIndex: 1, maxWidth: '900px', margin: '0 auto' }}>
                 <header className="module-header">
                     <h1>SOFTWARE_SYSTEMS</h1>
                     <div className="header-line"></div>
                 </header>
 
-                <div className="sys-panel" style={{ marginBottom: '20px' }}>
+                <div className="sys-panel" style={{ marginBottom: '40px' }}>
                     <div className="metric-row">
                         <span>MODULE STATUS</span>
                         <span className="metric-val accent">ACTIVE</span>
@@ -70,41 +115,16 @@ const SoftwareModule = () => {
                     <div className="metric-row" style={{ display: 'block', marginTop: '10px' }}>
                         <div className="panel-label">MODULE_OVERVIEW</div>
                         <p style={{ marginTop: '5px', fontSize: '0.9rem', color: 'var(--text-dim)' }}>
-                            This module contains software tools and scripts developed during learning and experimentation. The goal of this work is to solve concrete problems with simple, readable, and maintainable code.
+                            Software tools and scripts developed for solving concrete problems with simple, readable, and maintainable code.
                         </p>
                     </div>
                 </div>
 
-                <div className="project-log">
-                    <header className="log-header">
-                        <div className="log-meta">
-                            <span className="log-id">SW-TOOL-001</span>
-                            <span className="log-status status-deployed">[USABLE_AND_ITERATING]</span>
-                        </div>
-                        <h3 className="log-title">Utility or Automation Script</h3>
-                    </header>
-
-                    <section className="log-section">
-                        <h4 className="section-label">PROBLEM</h4>
-                        <p>Certain tasks encountered during study and practice are repetitive or error prone when performed manually.</p>
-                    </section>
-
-                    <section className="log-section">
-                        <h4 className="section-label">SOLUTION</h4>
-                        <p>A lightweight software tool was implemented to automate or simplify the task using clear logic and minimal dependencies.</p>
-                    </section>
-
-                    <section className="log-section">
-                        <h4 className="section-label">TECH_STACK</h4>
-                        <ul className="log-list">
-                            <li>Python and standard libraries</li>
-                        </ul>
-                    </section>
-
-                    <section className="log-section">
-                        <h4 className="section-label">KEY_LEARNINGS</h4>
-                        <p className="mono dim">This work reinforced the importance of code clarity, handling edge cases, and verifying outputs rather than relying on assumptions.</p>
-                    </section>
+                {/* Project Cards Grid */}
+                <div style={{ display: 'grid', gap: '24px' }}>
+                    {softwareProjects.map(project => (
+                        <ProjectCard key={project.id} {...project} />
+                    ))}
                 </div>
             </div>
         </div>

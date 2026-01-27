@@ -4,38 +4,57 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: var(--bg-primary);
+    background-color: #000;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
     flex-direction: column;
     cursor: pointer;
-    animation: fadeOut 0.5s ease 2.2s forwards;
+    animation: fadeOut 0.5s ease 3.2s forwards;
 }
 
-.rec-indicator {
-    position: absolute;
-    top: 40px;
-    right: 40px;
-    color: var(--error);
+.boot-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+.name-container {
+    margin-bottom: 2rem;
+}
+
+.first-name,
+.last-name {
     font-family: var(--font-mono);
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    text-shadow:
+        0 0 10px rgba(0, 240, 255, 0.8),
+        0 0 20px rgba(0, 240, 255, 0.6),
+        0 0 30px rgba(0, 240, 255, 0.4),
+        0 0 40px rgba(0, 240, 255, 0.2);
+    animation: nameGlow 2s ease-in-out infinite;
 }
 
-.rec-dot {
-    animation: blinkRed 1s infinite;
+.first-name {
+    animation-delay: 0.2s;
 }
 
-.boot-text {
-    font-family: var(--font-mono);
-    font-size: 1.5rem;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
+.last-name {
+    animation-delay: 0.4s;
+}
+
+.warp-text {
+    font-size: 1rem;
+    letter-spacing: 0.5em;
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+    animation: warpPulse 1.5s ease-in-out infinite;
 }
 
 .boot-sub {
@@ -45,10 +64,6 @@
     letter-spacing: 0.2em;
 }
 
-.cursor {
-    animation: blink 0.5s infinite;
-}
-
 .noise {
     position: absolute;
     top: 0;
@@ -56,19 +71,45 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    opacity: 0.05;
+    opacity: 0.03;
     background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJnoiPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjY1IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2cpIiBvcGFjaXR5PSIwLjUiLz48L3N2Zz4=');
 }
 
-@keyframes blinkRed {
+/* Animations */
+@keyframes nameGlow {
 
     0%,
     100% {
-        opacity: 1;
+        text-shadow:
+            0 0 10px rgba(0, 240, 255, 0.8),
+            0 0 20px rgba(0, 240, 255, 0.6),
+            0 0 30px rgba(0, 240, 255, 0.4),
+            0 0 40px rgba(0, 240, 255, 0.2);
+        transform: scale(1);
     }
 
     50% {
-        opacity: 0;
+        text-shadow:
+            0 0 20px rgba(0, 240, 255, 1),
+            0 0 30px rgba(0, 240, 255, 0.8),
+            0 0 40px rgba(0, 240, 255, 0.6),
+            0 0 50px rgba(0, 240, 255, 0.4),
+            0 0 60px rgba(0, 240, 255, 0.2);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes warpPulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: scaleX(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scaleX(1.05);
     }
 }
 
@@ -87,6 +128,76 @@
         opacity: 0;
         visibility: hidden;
     }
+}
 
-    /* Ensure it's gone */
+/* Responsive Design */
+@media (max-width: 1024px) {
+
+    .first-name,
+    .last-name {
+        font-size: 3.5rem;
+        letter-spacing: 0.15em;
+    }
+
+    .warp-text {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .first-name,
+    .last-name {
+        font-size: 2.8rem;
+        letter-spacing: 0.12em;
+    }
+
+    .name-container {
+        margin-bottom: 1.5rem;
+    }
+
+    .warp-text {
+        font-size: 0.8rem;
+        letter-spacing: 0.3em;
+    }
+
+    .boot-sub {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .first-name,
+    .last-name {
+        font-size: 2rem;
+        letter-spacing: 0.1em;
+    }
+
+    .name-container {
+        margin-bottom: 1rem;
+    }
+
+    .warp-text {
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+    }
+
+    .boot-sub {
+        font-size: 0.65rem;
+    }
+}
+
+@media (max-width: 360px) {
+
+    .first-name,
+    .last-name {
+        font-size: 1.6rem;
+        letter-spacing: 0.08em;
+    }
+
+    .warp-text {
+        font-size: 0.6rem;
+        letter-spacing: 0.15em;
+    }
 }

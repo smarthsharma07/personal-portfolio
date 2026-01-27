@@ -110,3 +110,65 @@
     font-size: 0.7rem;
     color: var(--text-dim);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .project-log {
+        padding-left: 15px;
+        margin-bottom: 40px;
+    }
+
+    .log-title {
+        font-size: 1.3rem;
+    }
+
+    .log-meta {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .log-section p,
+    .log-list li {
+        font-size: 0.9rem;
+    }
+
+    .media-grid {
+        gap: 8px;
+    }
+
+    .media-placeholder {
+        width: 120px;
+        height: 80px;
+        font-size: 0.65rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-log {
+        padding-left: 10px;
+        margin-bottom: 30px;
+    }
+
+    .log-title {
+        font-size: 1.1rem;
+    }
+
+    .log-meta {
+        font-size: 0.75rem;
+    }
+
+    .section-label {
+        font-size: 0.7rem;
+    }
+
+    .log-section p,
+    .log-list li {
+        font-size: 0.85rem;
+    }
+
+    .media-placeholder {
+        width: 100px;
+        height: 70px;
+        font-size: 0.6rem;
+    }
+}

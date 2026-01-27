@@ -173,3 +173,88 @@ pre {
 .dim {
   color: var(--text-dim);
 }
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  :root {
+    --container-width: 100%;
+  }
+
+  body {
+    font-size: 15px;
+  }
+
+  .grid-schema {
+    background-size: 40px 40px;
+  }
+
+  .circuits-bg {
+    background-size: 100% 100%, 30px 30px, 30px 30px;
+  }
+
+  .circuits-bg::before {
+    background-size: 50px 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: 0.03em;
+  }
+
+  .grid-schema {
+    background-size: 30px 30px;
+    opacity: 0.5;
+  }
+
+  .circuits-bg {
+    background-size: 100% 100%, 25px 25px, 25px 25px;
+  }
+
+  .circuits-bg::before {
+    background-size: 40px 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+    min-width: 280px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: 0.02em;
+  }
+
+  .grid-schema {
+    background-size: 25px 25px;
+    opacity: 0.3;
+  }
+
+  .circuits-bg {
+    background-size: 100% 100%, 20px 20px, 20px 20px;
+    opacity: 0.4;
+  }
+
+  .circuits-bg::before {
+    background-size: 35px 35px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+}

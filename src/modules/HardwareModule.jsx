@@ -2,6 +2,10 @@ import React, { useEffect, useRef } from 'react'
 import ProjectLog from '../components/ProjectLog'
 import './HardwareCircuit.css'
 
+// ============================================
+// 📝 CUSTOMIZE YOUR HARDWARE PROJECTS HERE
+// Add, edit, or remove projects in the array below
+// ============================================
 const hardProjects = [
     {
         id: 'HW-01',
@@ -29,6 +33,7 @@ const hardProjects = [
         images: []
     }
 ]
+// ============================================
 
 
 

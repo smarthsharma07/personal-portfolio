@@ -8,7 +8,7 @@
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    opacity: 0.6;
+    opacity: 0.9;
 }
 
 .central-chip {
@@ -19,7 +19,7 @@
     height: 60px;
     border: 2px solid var(--accent);
     background: rgba(0, 20, 30, 0.9);
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
     z-index: 2;
     display: flex;
     justify-content: center;
@@ -178,5 +178,55 @@
     100% {
         offset-distance: 100%;
         opacity: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .central-chip {
+        width: 50px;
+        height: 50px;
+    }
+
+    .chip-center {
+        width: 80px;
+        height: 80px;
+    }
+
+    .chip-mid-left,
+    .chip-mid-right {
+        width: 35px;
+        height: 35px;
+    }
+
+    .chip-logo {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .central-chip {
+        width: 40px;
+        height: 40px;
+    }
+
+    .chip-center {
+        width: 60px;
+        height: 60px;
+    }
+
+    .chip-mid-left,
+    .chip-mid-right {
+        width: 30px;
+        height: 30px;
+    }
+
+    .chip-logo {
+        font-size: 1.2rem;
+    }
+
+    .chip-pin {
+        width: 6px;
+        height: 1.5px;
     }
 }

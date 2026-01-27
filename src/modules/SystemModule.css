@@ -359,3 +359,124 @@
 .dot.pending {
     color: #d8a12e;
 }
+
+/* Responsive Design - Tablets */
+@media (max-width: 1024px) {
+    .sys-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .sys-panel h2 {
+        font-size: 2rem;
+    }
+
+    .module-header h1 {
+        font-size: 1.75rem;
+    }
+}
+
+/* Responsive Design - Mobile */
+@media (max-width: 768px) {
+    .module-container {
+        padding-bottom: 30px;
+    }
+
+    .module-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .sys-panel {
+        padding: 20px;
+    }
+
+    .sys-panel h2 {
+        font-size: 1.75rem;
+    }
+
+    .panel-label {
+        font-size: 0.7rem;
+    }
+
+    .split-layout {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .intro-text {
+        font-size: 0.95rem;
+    }
+
+    .sub-header {
+        font-size: 1.1rem;
+    }
+
+    .metric-row {
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+    }
+
+    .sys-btn {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .status-legend {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
+
+/* Responsive Design - Small Mobile */
+@media (max-width: 480px) {
+    .module-header h1 {
+        font-size: 1.25rem;
+        letter-spacing: 0.05em;
+    }
+
+    .sys-panel {
+        padding: 15px;
+    }
+
+    .sys-panel h2 {
+        font-size: 1.5rem;
+    }
+
+    .panel-label {
+        font-size: 0.65rem;
+    }
+
+    .intro-text {
+        font-size: 0.9rem;
+    }
+
+    .sub-header {
+        font-size: 1rem;
+    }
+
+    .focus-item h4 {
+        font-size: 0.9rem;
+    }
+
+    .focus-item li {
+        font-size: 0.85rem;
+    }
+
+    .stack-category h5 {
+        font-size: 0.75rem;
+    }
+
+    .stack-list li {
+        font-size: 0.8rem;
+    }
+
+    .metric-row {
+        font-size: 0.8rem;
+    }
+
+    .sys-btn {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+}

@@ -3,89 +3,117 @@ import './BootSequence.css'
 
 const BootSequence = ({ onComplete }) => {
     const [active, setActive] = useState(true)
-    const [text, setText] = useState('')
-    const fullText = "INITIALISING SYSTEM INTERFACE..."
     const canvasRef = useRef(null)
 
     useEffect(() => {
-        // Signals Animation (Simplified Version)
+        // Space Warp Effect
         const canvas = canvasRef.current
         const ctx = canvas.getContext('2d')
         let width = canvas.width = window.innerWidth
         let height = canvas.height = window.innerHeight
 
-        let signals = []
-        class BootSignal {
+        // Star field for space warp
+        let stars = []
+        const centerX = width / 2
+        const centerY = height / 2
+
+        class Star {
             constructor() {
-                this.x = Math.random() * width
-                this.y = Math.random() * height
-                this.speed = Math.random() * 5 + 2
-                this.size = Math.random() * 2 + 1
-                this.vertical = Math.random() > 0.5
+                this.reset()
+            }
+            reset() {
+                this.x = (Math.random() - 0.5) * width
+                this.y = (Math.random() - 0.5) * height
+                this.z = Math.random() * width
+                this.prevX = this.x
+                this.prevY = this.y
             }
             update() {
-                if (this.vertical) this.y -= this.speed
-                else this.x += this.speed
+                this.prevX = this.x
+                this.prevY = this.y
 
-                if (this.x > width) this.x = 0
-                if (this.y < 0) this.y = height
+                // Move star towards viewer (warp effect)
+                this.z -= 15
+
+                if (this.z <= 0) {
+                    this.reset()
+                }
             }
             draw() {
-                ctx.fillStyle = 'rgba(0, 240, 255, 0.3)'
-                ctx.fillRect(this.x, this.y, this.vertical ? 2 : this.speed * 2, this.vertical ? this.speed * 2 : 2)
+                // Project 3D to 2D
+                const x = (this.x / this.z) * width + centerX
+                const y = (this.y / this.z) * height + centerY
+                const prevX = (this.prevX / (this.z + 15)) * width + centerX
+                const prevY = (this.prevY / (this.z + 15)) * height + centerY
+
+                // Size based on depth
+                const size = (1 - this.z / width) * 3
+
+                // Brightness based on speed
+                const brightness = (1 - this.z / width)
+
+                // Draw star trail
+                ctx.strokeStyle = `rgba(0, 240, 255, ${brightness * 0.8})`
+                ctx.lineWidth = size
+                ctx.beginPath()
+                ctx.moveTo(prevX, prevY)
+                ctx.lineTo(x, y)
+                ctx.stroke()
+
+                // Draw star point
+                ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`
+                ctx.beginPath()
+                ctx.arc(x, y, size, 0, Math.PI * 2)
+                ctx.fill()
             }
         }
 
-        for (let i = 0; i < 30; i++) signals.push(new BootSignal())
+        // Create stars
+        for (let i = 0; i < 200; i++) {
+            stars.push(new Star())
+        }
 
         const animate = () => {
-            ctx.clearRect(0, 0, width, height)
-            signals.forEach(s => { s.update(); s.draw() })
+            // Fade effect for trails
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'
+            ctx.fillRect(0, 0, width, height)
+
+            stars.forEach(star => {
+                star.update()
+                star.draw()
+            })
+
             if (active) requestAnimationFrame(animate)
         }
         animate()
 
-        // Typing effect
-        let charIndex = 0
-        const typeInterval = setInterval(() => {
-            if (charIndex < fullText.length) {
-                setText(prev => prev + fullText.charAt(charIndex))
-                charIndex++
-            } else {
-                clearInterval(typeInterval)
-            }
-        }, 50)
-
         // Auto dismiss
-        const timber = setTimeout(() => {
+        const timer = setTimeout(() => {
             handleComplete()
-        }, 2500)
+        }, 3500)
 
         return () => {
-            clearTimeout(timber)
-            clearInterval(typeInterval)
+            clearTimeout(timer)
         }
     }, [])
 
     const handleComplete = () => {
         setActive(false)
-        setTimeout(onComplete, 500) // Wait for exit anim
+        setTimeout(onComplete, 500)
     }
 
     if (!active) return null
 
     return (
         <div className="boot-overlay" onClick={handleComplete}>
-            <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }} />
+            <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', background: '#000' }} />
             <div className="boot-content">
-                <div className="rec-indicator" style={{ width: 'auto', letterSpacing: '2px' }}>
-                    <span className="rec-dot">●</span> PROCESSING THE ARCHITECTURE
+                <div className="name-container">
+                    <div className="first-name">SMARTH</div>
+                    <div className="last-name">SHARMA</div>
                 </div>
-                <div className="boot-text">
-                    {text}<span className="cursor">_</span>
-                </div>
-                <div className="boot-sub">
-                    ESTABLISHING SECURE CONNECTION
+                <div className="boot-sub warp-text">
+                    ENTERING HYPERINTELLIGENCE
                 </div>
             </div>
             <div className="noise"></div>

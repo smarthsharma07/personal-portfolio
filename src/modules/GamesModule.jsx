@@ -1,5 +1,27 @@
 import React from 'react'
 
+// ============================================
+// 📝 WHEN YOU'RE READY: Uncomment the section below and add your game projects
+// Then update the code at the bottom to display ProjectCard components
+// ============================================
+
+// import ProjectCard from '../components/ProjectCard'
+// 
+// const gameProjects = [
+//     {
+//         id: 'GAME-001',
+//         title: 'Your Game Project Title',
+//         description: 'Brief description of your game mechanics and systems.',
+//         techStack: ['Unity', 'C#', 'Blender', 'Photon'],
+//         githubUrl: 'https://github.com/yourusername/your-game-repo',
+//         liveUrl: '',  // Optional: add itch.io or demo URL
+//         status: 'WIP'  // Options: ACTIVE, DEPLOYED, WIP, ARCHIVED
+//     },
+//     // Add more projects here
+// ]
+
+// ============================================
+
 const GamesModule = () => {
     return (
         <div className="module-container">
@@ -37,16 +59,16 @@ const GamesModule = () => {
                 {/* Pixel Grid */}
                 <div style={{
                     position: 'absolute', width: '100%', height: '100%',
-                    backgroundImage: 'linear-gradient(rgba(0, 255, 100, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 100, 0.1) 1px, transparent 1px)',
+                    backgroundImage: 'linear-gradient(rgba(0, 255, 100, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 100, 0.15) 1px, transparent 1px)',
                     backgroundSize: '40px 40px',
-                    opacity: 0.3
+                    opacity: 0.5
                 }}></div>
                 {/* Floating Polygon (CSS Triangle) */}
                 <div style={{
                     position: 'absolute', top: '20%', right: '10%', width: 0, height: 0,
                     borderLeft: '50px solid transparent', borderRight: '50px solid transparent',
-                    borderBottom: '100px solid rgba(0, 240, 255, 0.1)',
-                    transform: 'rotate(15deg)', filter: 'drop-shadow(0 0 10px var(--accent))'
+                    borderBottom: '100px solid rgba(0, 240, 255, 0.2)',
+                    transform: 'rotate(15deg)', filter: 'drop-shadow(0 0 20px var(--accent))'
                 }}></div>
             </div>
         </div>

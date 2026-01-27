@@ -29,3 +29,16 @@
     z-index: 50;
     opacity: 0.3;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 30px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 20px 10px;
+    }
+}

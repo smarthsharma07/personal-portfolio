@@ -89,3 +89,32 @@
         opacity: 1;
     }
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .star-canvas {
+        opacity: 0.6;
+    }
+
+    .circuit-overlay {
+        opacity: 0.5;
+    }
+
+    .circuit-path {
+        stroke-width: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .star-canvas {
+        opacity: 0.4;
+    }
+
+    .circuit-overlay {
+        opacity: 0.3;
+    }
+
+    .circuit-path {
+        stroke-width: 1;
+    }
+}

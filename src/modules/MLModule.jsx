@@ -1,5 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react'
 
+// ============================================
+// 📝 WHEN YOU'RE READY: Uncomment the section below and add your ML projects
+// Then update the code at the bottom to display ProjectCard components
+// ============================================
+
+// import ProjectCard from '../components/ProjectCard'
+// 
+// const mlProjects = [
+//     {
+//         id: 'ML-001',
+//         title: 'Your ML Project Title',
+//         description: 'Brief description of what your project does and the problem it solves.',
+//         techStack: ['Python', 'TensorFlow', 'Keras', 'NumPy'],
+//         githubUrl: 'https://github.com/yourusername/your-repo',
+//         liveUrl: '',  // Optional: add live demo URL or leave empty
+//         status: 'ACTIVE'  // Options: ACTIVE, DEPLOYED, WIP, ARCHIVED
+//     },
+//     // Add more projects here
+// ]
+
+// ============================================
+
 const MLModule = () => {
     const canvasRef = useRef(null)
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
@@ -160,7 +182,7 @@ const MLModule = () => {
                     width: '100%',
                     height: '100%',
                     zIndex: 0,
-                    opacity: 0.8
+                    opacity: 1.0
                 }}
             />
         </div>
