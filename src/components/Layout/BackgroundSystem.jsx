@@ -3,12 +3,12 @@ import './BackgroundSystem.css'
 
 const BackgroundSystem = () => {
     const canvasRef = useRef(null)
-    const [mouse, setMouse] = useState({ x: 0, y: 0 })
+    const mouseRef = useRef({ x: 0, y: 0 }) // Use a ref for mouse to prevent unnecessary re-renders
 
-    // Mouse tracking for parallax
+    // Mouse tracking for parallax using Ref to keep animation smooth
     useEffect(() => {
         const handleMove = (e) => {
-            setMouse({ x: e.clientX, y: e.clientY })
+            mouseRef.current = { x: e.clientX, y: e.clientY }
         }
         window.addEventListener('mousemove', handleMove)
         return () => window.removeEventListener('mousemove', handleMove)
@@ -24,8 +24,10 @@ const BackgroundSystem = () => {
         canvas.height = height
 
         const stars = []
-        const numStars = 100
-        const speed = 0.2
+        // --- MODIFICATIONS START ---
+        const numStars = 400; // Increased from 100 for higher density
+        const speed = 0.8;    // Increased from 0.2 for faster movement
+        // --- MODIFICATIONS END ---
 
         for (let i = 0; i < numStars; i++) {
             stars.push({
@@ -42,15 +44,20 @@ const BackgroundSystem = () => {
         const render = () => {
             ctx.clearRect(0, 0, width, height)
 
-            // Parallax offset
-            const offsetX = (mouse.x - width / 2) * 0.02
-            const offsetY = (mouse.y - height / 2) * 0.02
+            // Parallax offset using the ref
+            const offsetX = (mouseRef.current.x - width / 2) * 0.02
+            const offsetY = (mouseRef.current.y - height / 2) * 0.02
 
             ctx.fillStyle = '#ffffff'
             stars.forEach(star => {
-                // Update position
+                // Update position (Falling effect)
                 star.y -= speed * star.z
-                if (star.y < 0) star.y = height
+                
+                // Reset star to bottom when it leaves the top
+                if (star.y < 0) {
+                    star.y = height
+                    star.x = Math.random() * width
+                }
 
                 // Draw
                 ctx.globalAlpha = star.alpha * 0.5
@@ -76,7 +83,7 @@ const BackgroundSystem = () => {
             cancelAnimationFrame(animationFrameId)
             window.removeEventListener('resize', handleResize)
         }
-    }, [mouse])
+    }, []) // Removed [mouse] dependency to prevent star-field jittering
 
     return (
         <div className="background-system">
@@ -87,22 +94,18 @@ const BackgroundSystem = () => {
                 <defs>
                     <linearGradient id="trace-grad" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="rgba(0, 240, 255, 0)" />
-                        <stop offset="50%" stopColor="rgba(0, 240, 255, 1)" /> {/* Max brightness */}
+                        <stop offset="50%" stopColor="rgba(0, 240, 255, 1)" />
                         <stop offset="100%" stopColor="rgba(0, 240, 255, 0)" />
                     </linearGradient>
                 </defs>
-                {/* Circuit Traces - decorative paths */}
                 <path className="circuit-path" d="M 100 0 V 100 H 200 V 300" />
                 <path className="circuit-path" d="M 80% 100% V 80% H 60% V 60%" />
                 <path className="circuit-path" d="M 0 50% H 10% L 15% 55% H 30%" />
                 <path className="circuit-path delay-1" d="M 100% 20% H 90% L 85% 25% H 70%" />
 
-                {/* Digital Pulses */}
                 <circle className="circuit-node" cx="200" cy="300" r="2" />
                 <circle className="circuit-node" cx="60%" cy="60%" r="2" />
             </svg>
-
-            {/* Grid from CSS is separate, but we could add dynamic grid lines here too */}
         </div>
     )
 }
