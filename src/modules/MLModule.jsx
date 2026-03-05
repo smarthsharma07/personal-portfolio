@@ -82,7 +82,7 @@ const MLModule = () => {
             draw() {
                 ctx.beginPath()
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-                ctx.fillStyle = '#00f0ff'
+                ctx.fillStyle = '#7c3aed'
                 ctx.fill()
             }
         }
@@ -109,7 +109,7 @@ const MLModule = () => {
 
                     if (distance < connectionDistance) {
                         ctx.beginPath()
-                        ctx.strokeStyle = `rgba(0, 240, 255, ${1 - distance / connectionDistance})`
+                        ctx.strokeStyle = `rgba(124, 58, 237, ${1 - distance / connectionDistance})`
                         ctx.moveTo(particles[i].x, particles[i].y)
                         ctx.lineTo(particles[j].x, particles[j].y)
                         ctx.stroke()
@@ -146,7 +146,7 @@ const MLModule = () => {
     return (
         <div className="module-container ml-module" style={{ position: 'relative', overflow: 'hidden' }}>
             <header className="module-header" style={{ position: 'relative', zIndex: 10 }}>
-                <h1 className="dim">MACHINE_LEARNING_MODULE</h1>
+                <h1 style={{ color: 'var(--accent-secondary)', textShadow: '0 0 20px rgba(124,58,237,0.4)' }}>MACHINE_LEARNING_MODULE</h1>
                 <div className="header-line" style={{ opacity: 0.3 }}></div>
             </header>
 

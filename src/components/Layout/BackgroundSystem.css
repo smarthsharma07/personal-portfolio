@@ -1,120 +1,103 @@
 .background-system {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
+    inset: 0;
+    z-index: -1;
     overflow: hidden;
 }
 
 .star-canvas {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.8;
-    /* Increased from 0.6 */
+}
+
+.aurora-sweep {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 65% 45% at 15% 25%, rgba(0, 240, 255, 0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 40% at 85% 75%, rgba(124, 58, 237, 0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 35% at 50% 10%, rgba(255, 45, 120, 0.03) 0%, transparent 50%);
+    animation: auroraShift 14s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes auroraShift {
+    0% {
+        opacity: 0.7;
+        transform: scale(1) translateX(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.04) translateX(1.5%);
+    }
+
+    100% {
+        opacity: 0.75;
+        transform: scale(1) translateX(-1.5%);
+    }
 }
 
 .circuit-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.8;
-    /* Increased from 0.4 */
-    filter: drop-shadow(0 0 5px var(--accent));
-    /* Add glow */
+    pointer-events: none;
+    opacity: 0.3;
 }
 
 .circuit-path {
     fill: none;
+    stroke-width: 1;
+    stroke-linecap: square;
     stroke: url(#trace-grad);
-    stroke-width: 2;
-    /* Increased from 1 */
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: drawTrace 4s ease-in-out infinite;
-    filter: drop-shadow(0 0 2px var(--accent));
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: traceFlow 7s ease-in-out infinite;
 }
 
 .circuit-path.delay-1 {
-    animation-delay: 2s;
+    animation-delay: 2.5s;
+}
+
+@keyframes traceFlow {
+    0% {
+        stroke-dashoffset: 300;
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    80% {
+        stroke-dashoffset: 0;
+        opacity: 0.9;
+    }
+
+    100% {
+        stroke-dashoffset: -300;
+        opacity: 0;
+    }
 }
 
 .circuit-node {
     fill: var(--accent);
-    box-shadow: 0 0 10px var(--accent);
-    animation: pulseNode 3s infinite;
+    filter: drop-shadow(0 0 4px var(--accent));
+    animation: nodePulse 3.5s ease-in-out infinite;
 }
 
-@keyframes drawTrace {
-    0% {
-        stroke-dashoffset: 1000;
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 1;
-    }
-
-    40% {
-        stroke-dashoffset: 0;
-    }
-
-    50% {
-        opacity: 1;
-    }
-
-    100% {
-        stroke-dashoffset: -1000;
-        opacity: 0;
-    }
-}
-
-@keyframes pulseNode {
+@keyframes nodePulse {
 
     0%,
     100% {
-        transform: scale(1);
-        opacity: 0.5;
+        opacity: 0.35;
     }
 
     50% {
-        transform: scale(1.5);
         opacity: 1;
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .star-canvas {
-        opacity: 0.6;
-    }
-
-    .circuit-overlay {
-        opacity: 0.5;
-    }
-
-    .circuit-path {
-        stroke-width: 1.5;
-    }
-}
-
-@media (max-width: 480px) {
-    .star-canvas {
-        opacity: 0.4;
-    }
-
-    .circuit-overlay {
-        opacity: 0.3;
-    }
-
-    .circuit-path {
-        stroke-width: 1;
     }
 }

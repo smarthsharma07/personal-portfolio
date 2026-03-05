@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import ProjectCard from '../components/ProjectCard'
+import './SoftwareModule.css'
 
 const softwareProjects = [
     {
@@ -36,14 +37,13 @@ const softwareProjects = [
         id: 'SW-004',
         title: 'Personal Portfolio Website',
         description:
-            'Personal developer portfolio showcasing projects, technical skills, and academic background with a clean and responsive design.',
-        techStack: ['JavaScript', 'HTML', 'Vite', 'CSS'],
+            'Personal developer portfolio showcasing projects, technical skills, and academic background with a futuristic cyberpunk design system and custom canvas animations.',
+        techStack: ['JavaScript', 'React.js', 'Vite', 'CSS3'],
         githubUrl: 'https://github.com/smarthsharma07/portfolio',
         liveUrl: '',
         status: 'ACTIVE'
     }
-];
-
+]
 
 const SoftwareModule = () => {
     const canvasRef = useRef(null)
@@ -53,75 +53,87 @@ const SoftwareModule = () => {
         const ctx = canvas.getContext('2d')
         let width = canvas.width = canvas.parentElement.offsetWidth
         let height = canvas.height = canvas.parentElement.offsetHeight
-
         const columns = Math.floor(width / 20)
-        const drops = []
-
-        for (let i = 0; i < columns; i++) {
-            drops[i] = Math.random() * -100 // Start above screen with random delay
-        }
+        const drops = Array.from({ length: columns }, () => Math.random() * -100)
 
         const draw = () => {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)' // Trails
+            ctx.fillStyle = 'rgba(3, 5, 18, 0.07)'
             ctx.fillRect(0, 0, width, height)
-
-            ctx.fillStyle = '#0F0' // Matrix/Code Green color
-            ctx.font = '15px monospace'
-
+            ctx.font = '13px monospace'
             for (let i = 0; i < drops.length; i++) {
-                const text = String.fromCharCode(0x30A0 + Math.random() * 96) // Random Katakana/Matrix char
-                // or just binary: Math.random() > 0.5 ? '1' : '0' 
-
-                ctx.fillStyle = `rgba(0, 240, 255, ${Math.random()})` // Cyan variations
+                const text = String.fromCharCode(0x30A0 + Math.random() * 96)
+                const r = Math.random()
+                ctx.fillStyle = r > 0.75
+                    ? `rgba(255, 45, 120, ${0.3 + Math.random() * 0.7})`
+                    : `rgba(124, 58, 237, ${0.2 + Math.random() * 0.4})`
                 ctx.fillText(text, i * 20, drops[i] * 20)
-
-                if (drops[i] * 20 > height && Math.random() > 0.975) {
-                    drops[i] = 0
-                }
+                if (drops[i] * 20 > height && Math.random() > 0.975) drops[i] = 0
                 drops[i]++
             }
         }
-
-        const interval = setInterval(draw, 50)
-
+        const interval = setInterval(draw, 48)
         const handleResize = () => {
             width = canvas.width = canvas.parentElement.offsetWidth
             height = canvas.height = canvas.parentElement.offsetHeight
         }
         window.addEventListener('resize', handleResize)
-
-        return () => {
-            clearInterval(interval)
-            window.removeEventListener('resize', handleResize)
-        }
+        return () => { clearInterval(interval); window.removeEventListener('resize', handleResize) }
     }, [])
 
-    return (
-        <div className="module-container" style={{ position: 'relative', overflow: 'hidden' }}>
-            {/* Digital Rain Background */}
-            <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.5 }} />
+    const stats = [
+        { label: 'PROJECTS SHIPPED', value: '04', color: 'var(--accent-pink)' },
+        { label: 'HACKATHONS', value: '02', color: 'var(--accent-secondary)' },
+        { label: 'LANGUAGES', value: '08', color: 'var(--accent)' },
+        { label: 'STATUS', value: 'ACTIVE', color: 'var(--success)' },
+    ]
 
-            <div style={{ position: 'relative', zIndex: 1, maxWidth: '900px', margin: '0 auto' }}>
+    return (
+        <div className="module-container sw-module" style={{ position: 'relative', overflow: 'hidden' }}>
+            {/* Digital Rain Background */}
+            <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.45 }} />
+
+            <div className="sw-content">
+                {/* Header */}
                 <header className="module-header">
-                    <h1>SOFTWARE_SYSTEMS</h1>
-                    <div className="header-line"></div>
+                    <div className="sw-header-tag">// MODULE 04</div>
+                    <h1 className="sw-title">SOFTWARE_SYSTEMS</h1>
+                    <div className="sw-title-line" />
+                    <p className="sw-subtitle">Full-stack builds, hackathon sprints & shipped products</p>
                 </header>
 
-                <div className="sys-panel" style={{ marginBottom: '40px' }}>
-                    <div className="metric-row">
-                        <span>MODULE STATUS</span>
-                        <span className="metric-val accent">ACTIVE</span>
+                {/* Stats bar */}
+                <div className="sw-stats-row">
+                    {stats.map(s => (
+                        <div key={s.label} className="sw-stat">
+                            <span className="sw-stat-val" style={{ color: s.color }}>{s.value}</span>
+                            <span className="sw-stat-label">{s.label}</span>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Terminal overview panel */}
+                <div className="sw-terminal">
+                    <div className="sw-terminal-bar">
+                        <span className="terminal-dot td-red" />
+                        <span className="terminal-dot td-yellow" />
+                        <span className="terminal-dot td-green" />
+                        <span className="terminal-title">smarth@vortex:~/software $</span>
                     </div>
-                    <div className="metric-row" style={{ display: 'block', marginTop: '10px' }}>
-                        <div className="panel-label">MODULE_OVERVIEW</div>
-                        <p style={{ marginTop: '5px', fontSize: '0.9rem', color: 'var(--text-dim)' }}>
-                            Software tools and scripts developed for solving concrete problems with simple, readable, and maintainable code.
-                        </p>
+                    <div className="sw-terminal-body">
+                        <div className="sw-terminal-line"><span className="tc-dim">$</span> <span className="tc-pink">git log</span> --oneline --all</div>
+                        <div className="sw-terminal-line tc-dim">Showing <span className="tc-cyan">4</span> commits across <span className="tc-violet">3</span> repos</div>
+                        <div className="sw-terminal-line"><span className="tc-dim">→</span> Prioritizing clean architecture over clever hacks</div>
+                        <div className="sw-terminal-line"><span className="tc-dim">→</span> Focus: readable, maintainable, production-ready code</div>
+                        <div className="sw-terminal-line tc-dim blink-line">█</div>
                     </div>
                 </div>
 
                 {/* Project Cards Grid */}
-                <div style={{ display: 'grid', gap: '24px' }}>
+                <div className="sw-label-row">
+                    <span className="sw-section-label">▶ PROJECT_LOG</span>
+                    <span className="sw-count">{softwareProjects.length} ENTRIES</span>
+                </div>
+                <div className="sw-cards-grid">
                     {softwareProjects.map(project => (
                         <ProjectCard key={project.id} {...project} />
                     ))}

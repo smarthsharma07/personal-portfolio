@@ -1,399 +1,293 @@
 .project-card {
     position: relative;
-    background: rgba(0, 20, 30, 0.4);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 240, 255, 0.2);
-    border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 24px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-style: preserve-3d;
+    background: rgba(6, 9, 24, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1.5px solid rgba(0, 240, 255, 0.2);
+    padding: clamp(18px, 3vw, 28px);
+    transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     overflow: hidden;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    will-change: transform;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
 }
 
+/* Per-module top border tints */
+.sw-module .project-card {
+    border-top-color: rgba(255, 45, 120, 0.3);
+}
+
+.ml-module .project-card {
+    border-top-color: rgba(124, 58, 237, 0.3);
+}
+
+.hardware-module .project-card {
+    border-top-color: rgba(245, 158, 11, 0.3);
+}
+
+.game-module .project-card {
+    border-top-color: rgba(0, 255, 136, 0.3);
+}
+
+/* Top scan-line on hover */
 .project-card::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 240, 255, 0.05) 0%, rgba(0, 100, 150, 0.05) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 0;
+    left: -100%;
+    width: 100%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, var(--accent-pink), var(--accent), transparent);
+    transition: left 0.5s ease;
 }
 
 .project-card:hover::before {
+    left: 100%;
+}
+
+.sw-module .project-card::before {
+    background: linear-gradient(90deg, transparent, var(--accent-pink), var(--accent-secondary), transparent);
+}
+
+.ml-module .project-card::before {
+    background: linear-gradient(90deg, transparent, var(--accent-secondary), var(--accent-pink), transparent);
+}
+
+.hardware-module .project-card::before {
+    background: linear-gradient(90deg, transparent, var(--accent-gold), var(--accent), transparent);
+}
+
+.game-module .project-card::before {
+    background: linear-gradient(90deg, transparent, var(--success), var(--accent), transparent);
+}
+
+.project-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow:
+        0 12px 60px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+/* Holographic shimmer */
+.card-shimmer {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(0, 240, 255, 0.06) 0%,
+            rgba(124, 58, 237, 0.03) 40%,
+            transparent 70%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.sw-module .card-shimmer {
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(255, 45, 120, 0.07) 0%, rgba(124, 58, 237, 0.03) 40%, transparent 70%);
+}
+
+.project-card:hover .card-shimmer {
     opacity: 1;
 }
 
 .card-glow {
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #00f0ff, #0080ff, #00f0ff);
-    border-radius: 8px;
-    opacity: 0;
-    filter: blur(8px);
-    transition: opacity 0.3s ease;
-    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
 }
 
-.project-card:hover .card-glow {
-    opacity: 0.3;
-}
-
-.project-card:hover {
-    border-color: rgba(0, 240, 255, 0.5);
-    box-shadow:
-        0 8px 32px rgba(0, 240, 255, 0.15),
-        0 0 0 1px rgba(0, 240, 255, 0.1) inset;
+.card-header,
+.card-section,
+.card-footer {
+    position: relative;
+    z-index: 1;
 }
 
 .card-header {
-    position: relative;
-    z-index: 1;
-    margin-bottom: 16px;
+    margin-bottom: clamp(12px, 2vw, 18px);
 }
 
 .card-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.75rem;
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: clamp(0.65rem, 1.2vw, 0.75rem);
 }
 
 .card-id {
-    color: var(--accent);
-    font-weight: 600;
-    letter-spacing: 1px;
+    color: var(--accent-secondary);
+    letter-spacing: 0.08em;
 }
 
 .card-status {
-    padding: 4px 12px;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    background: rgba(0, 240, 255, 0.1);
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    color: var(--accent);
+    font-size: clamp(0.62rem, 1.1vw, 0.72rem);
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    border-radius: 2px;
 }
 
-.card-status.status-active,
 .card-status.status-deployed {
-    background: rgba(0, 255, 100, 0.1);
-    border-color: rgba(0, 255, 100, 0.3);
-    color: #00ff64;
+    color: var(--success);
+    background: rgba(0, 255, 136, 0.07);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.card-status.status-active {
+    color: var(--accent);
+    background: rgba(0, 240, 255, 0.07);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.card-status.status-hackathon {
+    color: var(--accent-gold);
+    background: rgba(245, 158, 11, 0.07);
+    border: 1px solid rgba(245, 158, 11, 0.22);
+}
+
+.card-status.status-wip {
+    color: var(--text-dim);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .card-status.status-archived {
-    background: rgba(150, 150, 150, 0.1);
-    border-color: rgba(150, 150, 150, 0.3);
-    color: #999;
-}
-
-.card-status.status-in-progress,
-.card-status.status-wip {
-    background: rgba(255, 200, 0, 0.1);
-    border-color: rgba(255, 200, 0, 0.3);
-    color: #ffc800;
+    color: var(--text-dim);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .card-title {
-    position: relative;
-    z-index: 1;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-bright);
-    margin: 0;
-    line-height: 1.4;
+    font-family: var(--font-display), var(--font-mono);
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    letter-spacing: 0.06em;
+    color: var(--text-primary);
 }
 
 .card-section {
-    position: relative;
-    z-index: 1;
-    margin-bottom: 16px;
+    margin-bottom: clamp(12px, 2vw, 18px);
 }
 
 .card-description {
-    color: var(--text-dim);
-    line-height: 1.6;
-    font-size: 0.95rem;
-    margin: 0;
+    font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+    color: var(--text-secondary);
+    line-height: 1.65;
 }
 
 .section-label {
-    font-family: 'Courier New', monospace;
-    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
     color: var(--accent);
-    letter-spacing: 1px;
-    margin: 0 0 12px 0;
-    font-weight: 600;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
 }
 
 .tech-stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
 }
 
 .tech-badge {
-    padding: 6px 12px;
-    background: rgba(0, 240, 255, 0.1);
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-family: 'Courier New', monospace;
-    color: var(--accent);
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.tech-badge::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.3), transparent);
-    transition: left 0.5s ease;
-}
-
-.tech-badge:hover::before {
-    left: 100%;
+    font-family: var(--font-mono);
+    font-size: clamp(0.62rem, 1.1vw, 0.7rem);
+    color: var(--text-secondary);
+    background: rgba(0, 240, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.13);
+    padding: 3px 9px;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
 }
 
 .tech-badge:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: rgba(0, 240, 255, 0.5);
-    box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
-    transform: translateY(-2px);
+    background: rgba(0, 240, 255, 0.1);
+    border-color: rgba(0, 240, 255, 0.3);
+    color: var(--accent);
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.1);
+}
+
+.sw-module .tech-badge:hover {
+    color: var(--accent-pink);
+    border-color: rgba(255, 45, 120, 0.3);
+    background: rgba(255, 45, 120, 0.08);
 }
 
 .card-footer {
-    position: relative;
-    z-index: 1;
     display: flex;
     gap: 12px;
-    margin-top: 20px;
+    flex-wrap: wrap;
+    margin-top: 4px;
 }
 
 .card-link {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
-    background: rgba(0, 240, 255, 0.1);
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    border-radius: 4px;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: clamp(0.65rem, 1.2vw, 0.74rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    transition: all 0.22s;
+}
+
+.link-arrow {
+    transition: transform 0.22s;
+    display: inline-block;
+}
+
+.card-link:hover .link-arrow {
+    transform: translateX(4px);
+}
+
+.github-link {
+    color: var(--text-secondary);
+    border-color: rgba(0, 240, 255, 0.2);
+}
+
+.github-link:hover {
     color: var(--accent);
-    text-decoration: none;
-    font-family: 'Courier New', monospace;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.card-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.2), transparent);
-    transition: left 0.4s ease;
-}
-
-.card-link:hover::before {
-    left: 100%;
-}
-
-.card-link:hover {
-    background: rgba(0, 240, 255, 0.2);
-    border-color: var(--accent);
-    box-shadow: 0 4px 16px rgba(0, 240, 255, 0.3);
-    transform: translateY(-2px);
-}
-
-.card-link svg {
-    width: 16px;
-    height: 16px;
-    transition: transform 0.3s ease;
-}
-
-.card-link:hover svg {
-    transform: scale(1.1);
+    border-color: rgba(0, 240, 255, 0.5);
+    background: rgba(0, 240, 255, 0.08);
+    box-shadow: 0 0 14px rgba(0, 240, 255, 0.1);
 }
 
 .live-link {
-    background: rgba(0, 255, 100, 0.1);
-    border-color: rgba(0, 255, 100, 0.3);
-    color: #00ff64;
+    color: var(--text-secondary);
+    border-color: rgba(124, 58, 237, 0.25);
 }
 
 .live-link:hover {
-    background: rgba(0, 255, 100, 0.2);
-    border-color: #00ff64;
-    box-shadow: 0 4px 16px rgba(0, 255, 100, 0.3);
+    color: var(--accent-secondary);
+    border-color: rgba(124, 58, 237, 0.5);
+    background: rgba(124, 58, 237, 0.08);
+    box-shadow: 0 0 14px rgba(124, 58, 237, 0.1);
 }
 
-
-/* ===================================
-   RESPONSIVE DESIGN
-   =================================== */
-
-/* Tablets and smaller laptops */
-@media (max-width: 1024px) {
-    .project-card {
-        padding: 22px;
-    }
-
-    .card-title {
-        font-size: 1.15rem;
-    }
-
-    .card-description {
-        font-size: 0.9rem;
-    }
-
-    .tech-badge {
-        padding: 5px 11px;
-        font-size: 0.75rem;
-    }
+/* Software module link overrides */
+.sw-module .live-link {
+    border-color: rgba(255, 45, 120, 0.25);
 }
 
-/* Mobile devices */
-@media (max-width: 768px) {
-    .project-card {
-        padding: 20px;
-        /* Simplify transform on mobile for better performance */
-        transform: none !important;
-    }
-
-    .project-card:hover {
-        transform: translateY(-4px) !important;
-    }
-
-    .card-title {
-        font-size: 1.1rem;
-    }
-
-    .card-description {
-        font-size: 0.85rem;
-        line-height: 1.5;
-    }
-
-    .tech-stack {
-        gap: 6px;
-    }
-
-    .tech-badge {
-        padding: 4px 10px;
-        font-size: 0.7rem;
-    }
-
-    .card-footer {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .card-link {
-        width: 100%;
-        justify-content: center;
-        padding: 12px 18px;
-    }
+.sw-module .live-link:hover {
+    color: var(--accent-pink);
+    border-color: rgba(255, 45, 120, 0.5);
+    background: rgba(255, 45, 120, 0.08);
+    box-shadow: 0 0 14px rgba(255, 45, 120, 0.1);
 }
 
-/* Small mobile devices */
 @media (max-width: 480px) {
     .project-card {
         padding: 16px;
-        margin-bottom: 16px;
-    }
-
-    .card-meta {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-    }
-
-    .card-id {
-        font-size: 0.7rem;
-    }
-
-    .card-status {
-        font-size: 0.65rem;
-        padding: 3px 8px;
-    }
-
-    .card-title {
-        font-size: 1rem;
-    }
-
-    .card-description {
-        font-size: 0.8rem;
-        margin: 10px 0;
-    }
-
-    .section-label {
-        font-size: 0.7rem;
-    }
-
-    .tech-badge {
-        padding: 3px 8px;
-        font-size: 0.65rem;
-    }
-
-    .card-link {
-        padding: 10px 14px;
-        font-size: 0.75rem;
-    }
-
-    .card-link svg {
-        width: 14px;
-        height: 14px;
-    }
-}
-
-/* Very small devices */
-@media (max-width: 360px) {
-    .project-card {
-        padding: 14px;
     }
 
     .card-title {
         font-size: 0.95rem;
-    }
-
-    .card-description {
-        font-size: 0.75rem;
-    }
-
-    .tech-stack {
-        gap: 4px;
-    }
-
-    .tech-badge {
-        font-size: 0.6rem;
-        padding: 2px 6px;
-    }
-
-    .card-link {
-        font-size: 0.7rem;
-        padding: 8px 12px;
     }
 }

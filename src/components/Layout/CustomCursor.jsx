@@ -6,30 +6,17 @@ const CustomCursor = () => {
     const [clicked, setClicked] = useState(false)
     const [linkHover, setLinkHover] = useState(false)
     const [trail, setTrail] = useState([])
+    const [ripples, setRipples] = useState([])
     const trailRef = useRef([])
 
     useEffect(() => {
-        const addEventListeners = () => {
-            document.addEventListener('mousemove', mMove)
-            document.addEventListener('mousedown', mDown)
-            document.addEventListener('mouseup', mUp)
-        }
-
-        const removeEventListeners = () => {
-            document.removeEventListener('mousemove', mMove)
-            document.removeEventListener('mousedown', mDown)
-            document.removeEventListener('mouseup', mUp)
-        }
-
         const mMove = (el) => {
             const newPos = { x: el.clientX, y: el.clientY }
             setPosition(newPos)
 
-            // Add to trail
-            trailRef.current = [...trailRef.current, { ...newPos, id: Date.now() }].slice(-8)
+            trailRef.current = [...trailRef.current, { ...newPos, id: Date.now() + Math.random() }].slice(-8)
             setTrail(trailRef.current)
 
-            // Check for hover targets
             const target = el.target
             if (target && (
                 target.tagName === 'A' ||
@@ -46,15 +33,38 @@ const CustomCursor = () => {
             }
         }
 
-        const mDown = () => setClicked(true)
+        const mDown = (e) => {
+            setClicked(true)
+            const id = Date.now() + Math.random()
+            setRipples(prev => [...prev, { x: e.clientX, y: e.clientY, id }])
+            setTimeout(() => {
+                setRipples(prev => prev.filter(r => r.id !== id))
+            }, 700)
+        }
+
         const mUp = () => setClicked(false)
 
-        addEventListeners()
-        return () => removeEventListeners()
+        document.addEventListener('mousemove', mMove)
+        document.addEventListener('mousedown', mDown)
+        document.addEventListener('mouseup', mUp)
+        return () => {
+            document.removeEventListener('mousemove', mMove)
+            document.removeEventListener('mousedown', mDown)
+            document.removeEventListener('mouseup', mUp)
+        }
     }, [])
 
     return (
         <>
+            {/* Click ripples */}
+            {ripples.map((r) => (
+                <div
+                    key={r.id}
+                    className="cursor-ripple"
+                    style={{ left: `${r.x}px`, top: `${r.y}px` }}
+                />
+            ))}
+
             {/* Trail particles */}
             {trail.map((point, index) => (
                 <div
@@ -63,8 +73,11 @@ const CustomCursor = () => {
                     style={{
                         left: `${point.x}px`,
                         top: `${point.y}px`,
-                        opacity: (index + 1) / trail.length * 0.5,
-                        transform: `translate(-50%, -50%) scale(${(index + 1) / trail.length})`
+                        opacity: (index + 1) / trail.length * 0.45,
+                        transform: `translate(-50%, -50%) scale(${(index + 1) / trail.length})`,
+                        background: index < 4
+                            ? 'rgba(124, 58, 237, 0.8)'
+                            : 'rgba(0, 240, 255, 0.8)'
                     }}
                 />
             ))}

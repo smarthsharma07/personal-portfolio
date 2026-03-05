@@ -1,0 +1,218 @@
+/* SoftwareModule — Hot Pink Theme */
+
+.sw-content {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* ── Header ──────────────────────────────────── */
+.sw-header-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent-secondary);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    opacity: 0.7;
+}
+
+.sw-title {
+    font-family: var(--font-display), var(--font-mono);
+    font-size: clamp(1.5rem, 4vw, 2.4rem);
+    color: var(--accent-pink);
+    text-shadow: 0 0 24px rgba(255, 45, 120, 0.4);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+}
+
+.sw-title-line {
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent-pink), var(--accent-secondary), transparent);
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+.sw-subtitle {
+    font-family: var(--font-mono);
+    font-size: clamp(0.75rem, 1.4vw, 0.85rem);
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+    margin-bottom: clamp(20px, 3vw, 36px);
+}
+
+/* ── Stats row ───────────────────────────────── */
+.sw-stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: clamp(20px, 3vw, 32px);
+}
+
+@media (max-width: 640px) {
+    .sw-stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 360px) {
+    .sw-stats-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+}
+
+.sw-stat {
+    background: rgba(255, 45, 120, 0.04);
+    border: 1px solid rgba(255, 45, 120, 0.12);
+    border-top: 2px solid rgba(255, 45, 120, 0.3);
+    padding: clamp(12px, 2vw, 18px) clamp(10px, 1.5vw, 16px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    backdrop-filter: blur(10px);
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    transition: border-top-color 0.2s ease, background 0.2s ease;
+}
+
+.sw-stat:hover {
+    background: rgba(255, 45, 120, 0.08);
+    border-top-color: var(--accent-pink);
+}
+
+.sw-stat-val {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    line-height: 1;
+}
+
+.sw-stat-label {
+    font-family: var(--font-mono);
+    font-size: clamp(0.58rem, 1vw, 0.65rem);
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+}
+
+/* ── Terminal panel ──────────────────────────── */
+.sw-terminal {
+    background: rgba(6, 10, 24, 0.7);
+    border: 1px solid rgba(255, 45, 120, 0.25);
+    border-radius: 0;
+    margin-bottom: clamp(20px, 3vw, 32px);
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+}
+
+.sw-terminal-bar {
+    background: rgba(255, 45, 120, 0.08);
+    border-bottom: 1px solid rgba(255, 45, 120, 0.12);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.terminal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.td-red {
+    background: #ff3355;
+}
+
+.td-yellow {
+    background: var(--accent-gold);
+}
+
+.td-green {
+    background: var(--success);
+}
+
+.terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    margin-left: 8px;
+    letter-spacing: 0.04em;
+}
+
+.sw-terminal-body {
+    padding: clamp(12px, 2vw, 18px) clamp(14px, 2.5vw, 20px);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sw-terminal-line {
+    font-family: var(--font-mono);
+    font-size: clamp(0.73rem, 1.3vw, 0.82rem);
+    color: var(--text-primary);
+    letter-spacing: 0.03em;
+}
+
+.tc-dim {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.tc-pink {
+    color: var(--accent-pink);
+}
+
+.tc-cyan {
+    color: var(--accent);
+}
+
+.tc-violet {
+    color: var(--accent-secondary);
+}
+
+.blink-line {
+    color: var(--accent-pink);
+    animation: termBlink 1s step-end infinite;
+}
+
+@keyframes termBlink {
+
+    0%,
+    100% {
+        opacity: 1
+    }
+
+    50% {
+        opacity: 0
+    }
+}
+
+/* ── Section label row ───────────────────────── */
+.sw-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.sw-section-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.sw-count {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.08em;
+}
+
+/* ── Cards grid ──────────────────────────────── */
+.sw-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+    gap: clamp(14px, 2.5vw, 24px);
+}

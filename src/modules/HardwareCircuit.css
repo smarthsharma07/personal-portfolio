@@ -1,232 +1,284 @@
-/* Hardware Circuit Animation Styles */
+/* HardwareModule — Amber/Gold Theme */
+
+/* ── Content layout ──────────────────────────── */
+.hw-content {
+    position: relative;
+    z-index: 5;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.hw-header-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent-gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    opacity: 0.6;
+}
+
+.hw-title {
+    font-family: var(--font-display), var(--font-mono);
+    font-size: clamp(1.5rem, 4vw, 2.4rem);
+    color: var(--accent-gold);
+    text-shadow: 0 0 24px rgba(245, 158, 11, 0.4);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+}
+
+.hw-title-line {
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent-gold), var(--accent-secondary), transparent);
+    margin-bottom: 10px;
+    opacity: 0.45;
+}
+
+.hw-subtitle {
+    font-family: var(--font-mono);
+    font-size: clamp(0.73rem, 1.3vw, 0.84rem);
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    margin-bottom: clamp(20px, 3vw, 36px);
+}
+
+/* ── Main 2-col grid ─────────────────────────── */
+.hw-main-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: clamp(14px, 2.5vw, 24px);
+}
+
+@media (max-width: 768px) {
+    .hw-main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Specs panel ─────────────────────────────── */
+.hw-specs-panel {
+    background: rgba(245, 158, 11, 0.03);
+    border: 1px solid rgba(245, 158, 11, 0.12);
+    border-top: 2px solid rgba(245, 158, 11, 0.35);
+    padding: clamp(16px, 2.5vw, 22px);
+    backdrop-filter: blur(12px);
+    height: fit-content;
+}
+
+.hw-spec-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(245, 158, 11, 0.08);
+}
+
+.hw-spec-row:last-of-type {
+    border-bottom: none;
+}
+
+.hw-spec-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.hw-spec-val {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--accent-gold);
+}
+
+.hw-prep-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.hw-prep-list li {
+    font-family: var(--font-mono);
+    font-size: clamp(0.73rem, 1.3vw, 0.8rem);
+    color: var(--text-secondary);
+    padding-left: 14px;
+    position: relative;
+}
+
+.hw-prep-list li::before {
+    content: '›';
+    position: absolute;
+    left: 1px;
+    color: var(--accent-gold);
+}
+
+/* ── Projects col ────────────────────────────── */
+.hw-projects-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .hardware-circuit-container {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
+    inset: 0;
     overflow: hidden;
-    opacity: 0.9;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.circuit-canvas {
+    display: block;
 }
 
 .central-chip {
-    /* Now used as a generic class for main nodes */
     position: absolute;
+    background: rgba(245, 158, 11, 0.06);
+    border: 1px solid rgba(245, 158, 11, 0.2);
     width: 60px;
-    /* Smaller base size */
     height: 60px;
-    border: 2px solid var(--accent);
-    background: rgba(0, 20, 30, 0.9);
-    box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    animation: chipPulse 4s ease-in-out infinite;
 }
 
-/* Distributed Chip Positions */
 .chip-center {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
-}
-
-.chip-top-left {
-    top: 15%;
-    left: 10%;
-}
-
-.chip-top-right {
-    top: 20%;
-    right: 10%;
-}
-
-.chip-bottom-left {
-    bottom: 20%;
-    left: 15%;
-}
-
-.chip-bottom-right {
-    bottom: 15%;
-    right: 12%;
-}
-
-.chip-mid-left {
-    top: 50%;
-    left: 5%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-}
-
-.chip-mid-right {
-    top: 40%;
-    right: 5%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: chipPulse 3s ease-in-out infinite;
+    border-color: rgba(245, 158, 11, 0.35);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.08), inset 0 0 20px rgba(245, 158, 11, 0.04);
 }
 
 .chip-inner {
-    width: 70%;
-    height: 70%;
-    background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, transparent 100%);
-    border: 1px dashed var(--accent);
     display: flex;
-    justify-content: center;
     align-items: center;
-    animation: chipPulse 4s infinite ease-in-out;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 .chip-logo {
-    color: var(--accent);
-    font-size: 2rem;
-    filter: drop-shadow(0 0 5px var(--accent));
-}
-
-.circuit-traces-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-.trace-line {
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 2;
-    stroke-opacity: 0.3;
-}
-
-.signal-packet {
-    fill: #fff;
-    filter: drop-shadow(0 0 4px #fff);
-    animation: signalTravel 3s infinite linear;
-}
-
-.signal-packet.delayed {
-    animation-delay: 1.5s;
-}
-
-/* Pins on the chip */
-.chip-pin {
-    position: absolute;
-    width: 8px;
-    height: 2px;
-    background: var(--accent);
-    box-shadow: 0 0 5px var(--accent);
-}
-
-.pin-top {
-    left: 50%;
-    top: -2px;
-    transform: translateX(-50%) rotate(90deg);
-}
-
-.pin-right {
-    right: -5px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.pin-bottom {
-    left: 50%;
-    bottom: -2px;
-    transform: translateX(-50%) rotate(90deg);
-}
-
-.pin-left {
-    left: -5px;
-    top: 50%;
-    transform: translateY(-50%);
+    font-size: 1.8rem;
+    color: var(--accent-gold);
+    text-shadow: 0 0 14px rgba(245, 158, 11, 0.6);
+    animation: chipPulse 2s ease-in-out infinite;
 }
 
 @keyframes chipPulse {
 
     0%,
     100% {
-        box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
-        opacity: 0.8;
+        opacity: 0.5;
+        box-shadow: 0 0 12px rgba(245, 158, 11, 0.05);
     }
 
     50% {
-        box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
         opacity: 1;
+        box-shadow: 0 0 24px rgba(245, 158, 11, 0.15);
     }
 }
 
-@keyframes signalTravel {
-    0% {
-        offset-distance: 0%;
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 1;
-    }
-
-    90% {
-        opacity: 1;
-    }
-
-    100% {
-        offset-distance: 100%;
-        opacity: 0;
-    }
+.chip-top-left {
+    top: 15%;
+    left: 10%;
+    animation-delay: 0.3s;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .central-chip {
-        width: 50px;
-        height: 50px;
-    }
-
-    .chip-center {
-        width: 80px;
-        height: 80px;
-    }
-
-    .chip-mid-left,
-    .chip-mid-right {
-        width: 35px;
-        height: 35px;
-    }
-
-    .chip-logo {
-        font-size: 1.5rem;
-    }
+.chip-top-right {
+    top: 15%;
+    right: 10%;
+    animation-delay: 0.6s;
 }
 
-@media (max-width: 480px) {
-    .central-chip {
-        width: 40px;
-        height: 40px;
-    }
+.chip-bottom-left {
+    bottom: 15%;
+    left: 10%;
+    animation-delay: 0.9s;
+}
 
-    .chip-center {
-        width: 60px;
-        height: 60px;
-    }
+.chip-bottom-right {
+    bottom: 15%;
+    right: 10%;
+    animation-delay: 1.2s;
+}
 
-    .chip-mid-left,
-    .chip-mid-right {
-        width: 30px;
-        height: 30px;
-    }
+.chip-mid-left {
+    top: 48%;
+    left: 5%;
+    animation-delay: 1.5s;
+    width: 40px;
+    height: 40px;
+}
 
-    .chip-logo {
-        font-size: 1.2rem;
-    }
+.chip-mid-right {
+    top: 48%;
+    right: 5%;
+    animation-delay: 1.8s;
+    width: 40px;
+    height: 40px;
+}
 
-    .chip-pin {
-        width: 6px;
-        height: 1.5px;
-    }
+/* Hardware accent overrides */
+.hardware-module .panel-label {
+    color: var(--accent-gold);
+}
+
+.hardware-module .panel-label::before {
+    color: var(--accent-gold);
+}
+
+.hardware-module .panel-label::after {
+    background: linear-gradient(to right, rgba(245, 158, 11, 0.4), transparent);
+}
+
+.hardware-module .sys-panel {
+    border-left-color: rgba(245, 158, 11, 0.35);
+}
+
+.hardware-module .sys-panel:hover {
+    border-left-color: var(--accent-gold);
+    box-shadow: -6px 0 30px -8px rgba(245, 158, 11, 0.2);
+}
+
+.hardware-module .metric-val.accent {
+    color: var(--accent-gold);
+}
+
+.hardware-module .header-line {
+    background: linear-gradient(90deg, var(--accent-gold), var(--accent-secondary), transparent);
+}
+
+.hardware-module .header-line::before {
+    background: var(--accent-gold);
+    box-shadow: 0 0 8px var(--accent-gold);
+}
+
+/* log-list */
+.log-list {
+    list-style: none;
+    padding: 0;
+}
+
+.log-list li {
+    font-family: var(--font-mono);
+    font-size: clamp(0.78rem, 1.4vw, 0.86rem);
+    color: var(--text-secondary);
+    padding: 4px 0 4px 14px;
+    position: relative;
+    border-left: 1px solid rgba(245, 158, 11, 0.12);
+    margin-bottom: 4px;
+}
+
+.log-list li::before {
+    content: '›';
+    position: absolute;
+    left: 3px;
+    color: var(--accent-gold);
 }

@@ -1,96 +1,101 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Rajdhani:wght@500;600;700&display=swap');
 
 :root {
-  /* Colors */
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #111111;
-  --bg-contrast: #1a1a1a;
+  /* ── Background ───────────────────────────── */
+  --bg-primary: #030512;
+  --bg-secondary: #060918;
+  --bg-contrast: #0d1229;
+  --bg-glass: rgba(6, 9, 24, 0.65);
 
-  --text-primary: #eeeeee;
-  --text-secondary: #aaaaaa;
-  --text-dim: #555555;
+  /* ── Text ─────────────────────────────────── */
+  --text-primary: #e8ecff;
+  --text-secondary: #7a82aa;
+  --text-dim: #2e3555;
 
+  /* ── Accents ──────────────────────────────── */
   --accent: #00f0ff;
-  --accent-dim: rgba(0, 240, 255, 0.2);
-  --error: #ff3333;
-  --success: #00ff41;
+  /* Cyan       */
+  --accent-dim: rgba(0, 240, 255, 0.12);
+  --accent-secondary: #7c3aed;
+  /* Violet     */
+  --accent-secondary-dim: rgba(124, 58, 237, 0.12);
+  --accent-pink: #ff2d78;
+  /* Hot pink   */
+  --accent-pink-dim: rgba(255, 45, 120, 0.12);
+  --accent-gold: #f59e0b;
+  /* Amber      */
+  --accent-gold-dim: rgba(245, 158, 11, 0.12);
+  --success: #00ff88;
+  /* Neon green */
+  --error: #ff3355;
 
-  /* Fonts */
+  /* ── Typography ───────────────────────────── */
   --font-mono: 'JetBrains Mono', monospace;
   --font-sans: 'Inter', sans-serif;
+  --font-display: 'Rajdhani', sans-serif;
 
-  /* Layout */
+  /* ── Layout ───────────────────────────────── */
   --nav-height: 60px;
   --container-width: 1200px;
+  --radius-sm: 3px;
+  --radius-md: 6px;
 }
 
-* {
+/* ── Reset ────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Global Background with subtle grid/cyber feel */
+/* ── Body ─────────────────────────────────────────────── */
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #050505;
+  background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Inter', monospace;
-  overflow-x: hidden;
-  /* Layer 1: Base & Vignette */
-  background-image:
-    radial-gradient(circle at center, transparent 0%, #000 140%),
-    linear-gradient(rgba(10, 20, 30, 0.4), rgba(0, 0, 0, 0.95));
-  /* Made slightly more transparent at top */
-
-  /* Layer 2: Technical Grid */
-  /* We will use a pseudo-element for the grid to keep it separate or just complex gradients here */
-  position: relative;
-  line-height: 1.6;
+  font-family: var(--font-sans);
   font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
   cursor: none;
-  /* Hide default cursor for CustomCursor */
+  /* Deep space nebula */
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50% -5%, rgba(124, 58, 237, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 85%, rgba(0, 240, 255, 0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 35% at 10% 90%, rgba(255, 45, 120, 0.05) 0%, transparent 50%);
 }
 
-/* Layer 1.5: Noise Overlay */
+/* ── Noise overlay ────────────────────────────────────── */
 body::after {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   z-index: 9000;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Layer 2: Grid Schema - Global Fixed */
+/* ── Technical grid ───────────────────────────────────── */
 .grid-schema {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   z-index: -1;
-  background-size: 50px 50px;
+  background-size: 48px 48px;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+    linear-gradient(to right, rgba(0, 240, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.022) 1px, transparent 1px);
+  mask-image: linear-gradient(to bottom, black 25%, transparent 100%);
 }
 
-/* Circuital Background for Hardware Module */
 .circuits-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   z-index: 0;
   background-image:
@@ -104,12 +109,8 @@ body::after {
 .circuits-bg::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image:
-    linear-gradient(45deg, transparent 48%, rgba(0, 255, 136, 0.1) 50%, transparent 52%);
+  inset: 0;
+  background-image: linear-gradient(45deg, transparent 48%, rgba(0, 255, 136, 0.08) 50%, transparent 52%);
   background-size: 60px 60px;
 }
 
@@ -119,17 +120,17 @@ body::after {
   flex-direction: column;
 }
 
-/* Typography Defaults */
+/* ── Typography ───────────────────────────────────────── */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-mono);
+  font-family: var(--font-display), var(--font-mono);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--text-primary);
 }
 
@@ -143,9 +144,9 @@ pre {
   font-family: var(--font-mono);
 }
 
-/* Scrollbar */
+/* ── Scrollbar ────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -153,15 +154,15 @@ pre {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-contrast);
-  border: 1px solid var(--text-dim);
+  background: linear-gradient(to bottom, var(--accent-pink), var(--accent));
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-dim);
+  background: var(--accent);
 }
 
-/* Utilities */
+/* ── Util classes ─────────────────────────────────────── */
 .mono {
   font-family: var(--font-mono);
 }
@@ -170,11 +171,24 @@ pre {
   color: var(--accent);
 }
 
+.accent-pink {
+  color: var(--accent-pink);
+}
+
 .dim {
   color: var(--text-dim);
 }
 
-/* Responsive Design */
+/* ── Global glow helpers ──────────────────────────────── */
+.glow-cyan {
+  text-shadow: 0 0 14px rgba(0, 240, 255, 0.7);
+}
+
+.glow-pink {
+  text-shadow: 0 0 14px rgba(255, 45, 120, 0.7);
+}
+
+/* ── Responsive ───────────────────────────────────────── */
 @media (max-width: 1024px) {
   :root {
     --container-width: 100%;
@@ -186,14 +200,6 @@ pre {
 
   .grid-schema {
     background-size: 40px 40px;
-  }
-
-  .circuits-bg {
-    background-size: 100% 100%, 30px 30px, 30px 30px;
-  }
-
-  .circuits-bg::before {
-    background-size: 50px 50px;
   }
 }
 
@@ -212,16 +218,8 @@ pre {
   }
 
   .grid-schema {
-    background-size: 30px 30px;
-    opacity: 0.5;
-  }
-
-  .circuits-bg {
-    background-size: 100% 100%, 25px 25px, 25px 25px;
-  }
-
-  .circuits-bg::before {
-    background-size: 40px 40px;
+    background-size: 32px 32px;
+    opacity: 0.6;
   }
 }
 
@@ -241,20 +239,11 @@ pre {
   }
 
   .grid-schema {
-    background-size: 25px 25px;
-    opacity: 0.3;
-  }
-
-  .circuits-bg {
-    background-size: 100% 100%, 20px 20px, 20px 20px;
+    background-size: 24px 24px;
     opacity: 0.4;
   }
 
-  .circuits-bg::before {
-    background-size: 35px 35px;
-  }
-
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 3px;
   }
 }

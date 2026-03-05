@@ -1,43 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import ProjectLog from '../components/ProjectLog'
 import './HardwareCircuit.css'
-
-// ============================================
-// 📝 CUSTOMIZE YOUR HARDWARE PROJECTS HERE
-// Add, edit, or remove projects in the array below
-// ============================================
-const hardProjects = [
-    {
-        id: 'HW-01',
-        title: 'Autonomous Drone Navigation System',
-        status: 'DEPLOYED',
-        problem: 'Standard GPS signals were unreliable in dense urban environments (canyons), causing drift > 2m.',
-        decisions: [
-            'Implemented Optical Flow sensor for local stabilization.',
-            'Custom PID controller tuning for wind resistance.',
-            'Switched from Raspberry Pi to Jetson Nano for onboard CV processing.'
-        ],
-        lessons: 'Power budget is critical; initial GPU load drained battery 30% faster than calculated.',
-        images: [1, 2]
-    },
-    {
-        id: 'HW-02',
-        title: 'FPGA Soft Processor Core',
-        status: 'ARCHIVED',
-        problem: 'Learning strict timing constraints in Verilog by building a RISC-V subset core.',
-        decisions: [
-            '5-stage pipeline implementation.',
-            'Hazard detection unit prioritization over branch prediction for simplicity.'
-        ],
-        lessons: 'Timing closure on low-end FPGAs requires careful routing constraints.',
-        images: []
-    }
-]
-// ============================================
-
-
-
-// ... existing code ...
 
 const HardwareModule = () => {
     const canvasRef = useRef(null)
@@ -49,199 +11,166 @@ const HardwareModule = () => {
         let height = canvas.height = canvas.parentElement.offsetHeight
 
         const gridSize = 30
-        const signalCount = 40
+        const signalCount = 25
         const signals = []
         let mouse = { x: -1000, y: -1000 }
 
         class Signal {
-            constructor() {
-                this.reset()
-            }
-
+            constructor() { this.reset() }
             reset() {
-                // Snap to grid
                 this.x = Math.floor(Math.random() * (width / gridSize)) * gridSize
                 this.y = Math.floor(Math.random() * (height / gridSize)) * gridSize
-
-                // Cardinal directions only
                 if (Math.random() > 0.5) {
-                    this.vx = (Math.random() > 0.5 ? 1 : -1) * 2 // Speed
+                    this.vx = (Math.random() > 0.5 ? 1 : -1) * 1
                     this.vy = 0
                 } else {
                     this.vx = 0
-                    this.vy = (Math.random() > 0.5 ? 1 : -1) * 2
+                    this.vy = (Math.random() > 0.5 ? 1 : -1) * 1
                 }
-
                 this.history = []
-                this.historyMaxLength = 20
+                this.maxHistory = 18
                 this.life = 0
-                this.maxLife = 100 + Math.random() * 100
-                this.color = '#00f0ff'
+                this.maxLife = 80 + Math.random() * 120
             }
-
             update() {
                 this.life++
-                if (this.life > this.maxLife ||
-                    this.x < 0 || this.x > width ||
-                    this.y < 0 || this.y > height) {
-                    this.reset()
+                if (this.life > this.maxLife || this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+                    this.reset(); return
                 }
-
-                // Change direction randomly at grid intersections
-                if (this.x % gridSize === 0 && this.y % gridSize === 0 && Math.random() > 0.8) {
-                    if (this.vx !== 0) {
-                        this.vx = 0
-                        this.vy = (Math.random() > 0.5 ? 1 : -1) * 2
-                    } else {
-                        this.vy = 0
-                        this.vx = (Math.random() > 0.5 ? 1 : -1) * 2
-                    }
+                if (this.x % gridSize === 0 && this.y % gridSize === 0 && Math.random() > 0.82) {
+                    if (this.vx !== 0) { this.vx = 0; this.vy = (Math.random() > 0.5 ? 1 : -1) * 1 }
+                    else { this.vy = 0; this.vx = (Math.random() > 0.5 ? 1 : -1) * 1 }
                 }
-
                 this.x += this.vx
                 this.y += this.vy
-
-                // Trail history
                 this.history.push({ x: this.x, y: this.y })
-                if (this.history.length > this.historyMaxLength) {
-                    this.history.shift()
-                }
-
-                // Mouse Interaction: High Energy Zone
-                const dx = mouse.x - this.x
-                const dy = mouse.y - this.y
+                if (this.history.length > this.maxHistory) this.history.shift()
+                const dx = mouse.x - this.x, dy = mouse.y - this.y
                 const dist = Math.sqrt(dx * dx + dy * dy)
-                if (dist < 150) {
-                    this.color = '#fff' // White hot when near mouse
-                } else {
-                    this.color = '#00f0ff'
-                }
+                this.bright = dist < 130
             }
-
             draw() {
                 if (this.history.length < 2) return
-
                 ctx.beginPath()
-                ctx.strokeStyle = this.color
-                ctx.lineWidth = 2
+                ctx.strokeStyle = this.bright
+                    ? `rgba(255, 220, 100, 0.9)`
+                    : `rgba(245, 158, 11, 0.45)`
+                ctx.lineWidth = this.bright ? 2 : 1.5
                 ctx.lineCap = 'square'
-
-                // Draw trail
                 ctx.moveTo(this.history[0].x, this.history[0].y)
-                for (let i = 1; i < this.history.length; i++) {
-                    ctx.lineTo(this.history[i].x, this.history[i].y)
-                }
+                for (let i = 1; i < this.history.length; i++) ctx.lineTo(this.history[i].x, this.history[i].y)
                 ctx.stroke()
-
-                // Head
-                ctx.fillStyle = '#fff'
+                // Head dot
+                ctx.fillStyle = this.bright ? '#fff' : `rgba(245,158,11,0.8)`
                 ctx.fillRect(this.x - 2, this.y - 2, 4, 4)
             }
         }
 
-        for (let i = 0; i < signalCount; i++) {
-            signals.push(new Signal())
-        }
+        for (let i = 0; i < signalCount; i++) signals.push(new Signal())
 
-        let animationFrameId
+        let raf
         const animate = () => {
-            // Fade out effect for trails
-            ctx.fillStyle = 'rgba(0, 5, 10, 0.1)' // Very dark blue fade
+            ctx.fillStyle = 'rgba(3, 5, 18, 0.12)'
             ctx.fillRect(0, 0, width, height)
-
-            // Draw Mouse Energy
             if (mouse.x > 0) {
-                const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 200)
-                g.addColorStop(0, 'rgba(0, 240, 255, 0.1)')
+                const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 180)
+                g.addColorStop(0, 'rgba(245, 158, 11, 0.08)')
                 g.addColorStop(1, 'transparent')
                 ctx.fillStyle = g
                 ctx.fillRect(0, 0, width, height)
             }
-
-            signals.forEach(s => {
-                s.update()
-                s.draw()
-            })
-
-            animationFrameId = requestAnimationFrame(animate)
+            signals.forEach(s => { s.update(); s.draw() })
+            raf = requestAnimationFrame(animate)
         }
-
         animate()
 
-        const handleResize = () => {
+        const onResize = () => {
             width = canvas.width = canvas.parentElement.offsetWidth
             height = canvas.height = canvas.parentElement.offsetHeight
         }
-
-        const handleMouseMove = (e) => {
+        const onMouseMove = e => {
             const rect = canvas.getBoundingClientRect()
             mouse.x = e.clientX - rect.left
             mouse.y = e.clientY - rect.top
         }
-
-        window.addEventListener('resize', handleResize)
-        canvas.addEventListener('mousemove', handleMouseMove)
+        window.addEventListener('resize', onResize)
+        canvas.addEventListener('mousemove', onMouseMove)
         canvas.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000 })
-
-        return () => {
-            window.removeEventListener('resize', handleResize)
-            cancelAnimationFrame(animationFrameId)
-        }
+        return () => { window.removeEventListener('resize', onResize); cancelAnimationFrame(raf) }
     }, [])
 
     return (
         <div className="module-container hardware-module" style={{ position: 'relative', overflow: 'hidden' }}>
-            <header className="module-header" style={{ position: 'relative', zIndex: 5 }}>
-                <h1 className="dim">HARDWARE_MODULE</h1>
-                <div className="header-line" style={{ opacity: 0.3 }}></div>
-            </header>
-
-            <div className="sys-panel" style={{ maxWidth: '600px', margin: '60px auto', position: 'relative', zIndex: 10 }}>
-                {/* ... existing panel content ... */}
-                <div className="panel-label">MODULE STATUS</div>
-                <h2 style={{ color: 'var(--text-dim)', marginBottom: '20px' }}>REGISTERED</h2>
-
-                <div className="metric-row">
-                    <div className="panel-label">MODULE OVERVIEW</div>
-                    <p style={{ marginTop: '5px', fontSize: '0.9rem', color: 'var(--text-dim)' }}>
-                        This module is reserved for future hardware projects involving sensor interfacing, signal acquisition, and microcontroller based systems. Documentation will focus on design reasoning, testing methodology, and observed behavior rather than only final results.
-                    </p>
-                </div>
-
-                <div className="metric-row" style={{ display: 'block', marginTop: '20px' }}>
-                    <div className="panel-label">CURRENT PREPARATION</div>
-                    <ul className="log-list" style={{ marginTop: '10px' }}>
-                        <li>Revising core electronics and signal concepts</li>
-                        <li>Learning microcontroller programming and interfaces</li>
-                        <li>Studying real world signal noise and system constraints</li>
-                    </ul>
-                </div>
-
-                <div className="metric-row" style={{ marginTop: '20px' }}>
-                    <span className="dim">ACTIVATION CRITERIA</span>
-                    <span className="accent">STABLE HARDWARE BUILD READY</span>
-                </div>
+            {/* Canvas BG */}
+            <canvas
+                ref={canvasRef}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0 }}
+            />
+            {/* Amber chip decorations */}
+            <div className="hardware-circuit-container">
+                <div className="central-chip chip-center"><div className="chip-inner"><span className="chip-logo">◈</span></div></div>
+                <div className="central-chip chip-top-left" />
+                <div className="central-chip chip-top-right" />
+                <div className="central-chip chip-bottom-left" />
+                <div className="central-chip chip-bottom-right" />
+                <div className="central-chip chip-mid-left" />
+                <div className="central-chip chip-mid-right" />
             </div>
 
-            {/* Hardware Circuit Animation Overlay */}
-            <div className="hardware-circuit-container">
-                {/* Distributed Chips */}
-                <div className="central-chip chip-center">
-                    <div className="chip-inner"><span className="chip-logo">◈</span></div>
-                </div>
-                <div className="central-chip chip-top-left"></div>
-                <div className="central-chip chip-top-right"></div>
-                <div className="central-chip chip-bottom-left"></div>
-                <div className="central-chip chip-bottom-right"></div>
-                <div className="central-chip chip-mid-left"></div>
-                <div className="central-chip chip-mid-right"></div>
+            <div className="hw-content" style={{ minHeight: '65vh', display: 'flex', flexDirection: 'column' }}>
+                {/* Header */}
+                <header className="module-header" style={{ position: 'relative', zIndex: 5 }}>
+                    <div className="hw-header-tag">// MODULE 02</div>
+                    <h1 className="hw-title">HARDWARE_MODULE</h1>
+                    <div className="hw-title-line" />
+                    <p className="hw-subtitle">Embedded systems, signal acquisition &amp; physical computing</p>
+                </header>
 
-                {/* Canvas replacing SVG */}
-                <canvas
-                    ref={canvasRef}
-                    className="circuit-canvas"
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
-                />
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '20px', zIndex: 5, position: 'relative', padding: '40px 20px' }}>
+                    <div style={{
+                        fontSize: '3.5rem',
+                        color: 'var(--accent-gold)',
+                        filter: 'drop-shadow(0 0 15px rgba(245,158,11,0.4))',
+                        marginBottom: '10px'
+                    }}>
+                        🚧
+                    </div>
+
+                    <h2 style={{
+                        fontFamily: 'var(--font-mono)',
+                        color: 'var(--accent-gold)',
+                        letterSpacing: '0.25em',
+                        fontSize: '1.4rem',
+                        textAlign: 'center'
+                    }}>
+                        IN DEVELOPMENT
+                    </h2>
+
+                    <p style={{
+                        fontFamily: 'var(--font-mono)',
+                        color: 'var(--text-secondary)',
+                        maxWidth: '420px',
+                        textAlign: 'center',
+                        lineHeight: '1.6',
+                        fontSize: '0.85rem'
+                    }}>
+                        The hardware laboratory is currently being established. Initializing base sensors, microcontroller foundations, and workspace logistics...
+                    </p>
+
+                    <div style={{
+                        marginTop: '20px',
+                        padding: '12px 24px',
+                        border: '1px solid rgba(245, 158, 11, 0.3)',
+                        background: 'rgba(245, 158, 11, 0.05)',
+                        color: 'var(--accent-gold)',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.75rem',
+                        letterSpacing: '0.15em',
+                        backdropFilter: 'blur(10px)'
+                    }}>
+                        STATUS: ESTIMATED COMPLETION Q3 2026
+                    </div>
+                </div>
             </div>
         </div>
     )

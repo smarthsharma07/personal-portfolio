@@ -1,0 +1,430 @@
+/* GamesModule — Neon Green RPG Theme */
+
+.game-content {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* Pixel grid overlay */
+.game-pixel-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0, 255, 136, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.04) 1px, transparent 1px);
+    background-size: 36px 36px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Header ──────────────────────────────────── */
+.game-header-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--success);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    opacity: 0.6;
+}
+
+.game-title {
+    font-family: var(--font-display), var(--font-mono);
+    font-size: clamp(1.5rem, 4vw, 2.4rem);
+    color: var(--success);
+    text-shadow: 0 0 24px rgba(0, 255, 136, 0.4);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+}
+
+.game-title-line {
+    height: 1px;
+    background: linear-gradient(90deg, var(--success), var(--accent-secondary), transparent);
+    margin-bottom: 10px;
+    opacity: 0.45;
+}
+
+.game-subtitle {
+    font-family: var(--font-mono);
+    font-size: clamp(0.73rem, 1.3vw, 0.84rem);
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    margin-bottom: clamp(16px, 2.5vw, 24px);
+}
+
+/* ── Status callout ────────────────────────── */
+.game-status-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: rgba(0, 255, 136, 0.03);
+    border: 1px solid rgba(0, 255, 136, 0.12);
+    border-left: 3px solid rgba(0, 255, 136, 0.4);
+    padding: clamp(14px, 2vw, 20px);
+    margin-bottom: clamp(16px, 2.5vw, 24px);
+    backdrop-filter: blur(10px);
+}
+
+.gsc-icon {
+    font-size: 1.5rem;
+    color: var(--success);
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 8px var(--success));
+    margin-top: 2px;
+}
+
+.gsc-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.gsc-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--success);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+}
+
+.gsc-desc {
+    font-family: var(--font-mono);
+    font-size: clamp(0.73rem, 1.3vw, 0.82rem);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.gsc-badge {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--accent-gold);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    padding: 3px 8px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    flex-shrink: 0;
+    height: fit-content;
+}
+
+@media (max-width: 500px) {
+    .game-status-callout {
+        flex-wrap: wrap;
+    }
+}
+
+/* ── Main 2-col grid ─────────────────────────── */
+.game-main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(14px, 2.5vw, 24px);
+    margin-bottom: clamp(16px, 3vw, 28px);
+}
+
+@media (max-width: 800px) {
+    .game-main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Status panel ────────────────────────────── */
+.game-status-panel {
+    background: rgba(0, 255, 136, 0.03);
+    border: 1px solid rgba(0, 255, 136, 0.12);
+    border-top: 2px solid rgba(0, 255, 136, 0.35);
+    padding: clamp(16px, 2.5vw, 22px);
+    backdrop-filter: blur(12px);
+}
+
+.game-profile-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding: 14px;
+    background: rgba(0, 255, 136, 0.04);
+    border: 1px solid rgba(0, 255, 136, 0.1);
+}
+
+.game-avatar {
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--success);
+    filter: drop-shadow(0 0 10px var(--success));
+    animation: avatarPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes avatarPulse {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 6px var(--success));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 18px var(--success));
+    }
+}
+
+.game-player-name {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--success);
+    letter-spacing: 0.06em;
+    font-weight: 700;
+}
+
+.game-player-class {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+}
+
+.game-player-lvl {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--accent-gold);
+    margin-top: 4px;
+    letter-spacing: 0.06em;
+}
+
+.game-player-lvl span {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.game-xp-row {
+    margin-bottom: 14px;
+}
+
+.game-xp-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+    margin-bottom: 5px;
+}
+
+.game-xp-val {
+    color: var(--text-secondary);
+}
+
+.game-xp-track {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.game-xp-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(0, 255, 136, 0.5), var(--success));
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+    transition: width 0.6s ease;
+}
+
+/* ── Achievements ────────────────────────────── */
+.game-right-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-achievements {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.game-achievement {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: clamp(10px, 1.5vw, 14px) clamp(12px, 2vw, 16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+}
+
+.game-achievement.unlocked {
+    border-color: rgba(0, 255, 136, 0.18);
+    background: rgba(0, 255, 136, 0.04);
+}
+
+.game-achievement.locked {
+    opacity: 0.45;
+}
+
+.game-achievement.unlocked:hover {
+    background: rgba(0, 255, 136, 0.08);
+    transform: translateX(4px);
+}
+
+.ach-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.ach-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ach-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 2px;
+}
+
+.ach-val {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ach-badge {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    flex-shrink: 0;
+}
+
+.ach-done {
+    color: var(--success);
+}
+
+.ach-pending {
+    color: var(--text-dim);
+}
+
+/* ── Tech Queue ──────────────────────────────── */
+.game-tech-queue {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.game-tech-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.game-tech-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-tech-name {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+}
+
+.game-tech-status {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 2px 7px;
+}
+
+.gs-queued {
+    color: var(--accent-gold);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.gs-researching {
+    color: var(--accent);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.gs-locked {
+    color: var(--text-dim);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.game-tech-bar {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.game-tech-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent-secondary), var(--success));
+    box-shadow: 0 0 6px rgba(0, 255, 136, 0.3);
+}
+
+/* ── Unlock list ────────────────────────────── */
+.game-unlock-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.game-unlock-list li {
+    font-family: var(--font-mono);
+    font-size: clamp(0.73rem, 1.3vw, 0.8rem);
+    color: var(--text-secondary);
+    padding-left: 16px;
+    position: relative;
+}
+
+.game-unlock-list li::before {
+    content: '›';
+    position: absolute;
+    left: 2px;
+    color: var(--success);
+}
+
+.game-status-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    border-top: 1px solid rgba(0, 255, 136, 0.08);
+    padding-top: 16px;
+}
+
+.gsf-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    box-shadow: 0 0 6px var(--accent-gold);
+    animation: gsfdot 2s ease-in-out infinite;
+}
+
+@keyframes gsfdot {
+
+    0%,
+    100% {
+        opacity: 1
+    }
+
+    50% {
+        opacity: 0.3
+    }
+}
+
+.gsf-val {
+    color: var(--accent-gold);
+}
