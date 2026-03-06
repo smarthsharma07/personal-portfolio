@@ -46,13 +46,13 @@ The website is built with a modern frontend stack and deployed on **Vercel** for
 
 
 ## Project Structure
-├── public/ # Static assets
-├── src/ # Main source code
-├── index.html # Entry HTML file
-├── vite.config.js # Vite configuration
-├── package.json # Project dependencies
-├── eslint.config.js # Linting rules
-└── README.md
+- ├── public/ # Static assets
+- ├── src/ # Main source code
+- ├── index.html # Entry HTML file
+- ├── vite.config.js # Vite configuration
+- ├── package.json # Project dependencies
+- ├── eslint.config.js # Linting rules
+- └── README.md
 
 
 ---
@@ -65,26 +65,26 @@ Clone the repository:
 git clone https://github.com/smarthsharma07/portfolio-website.git
 ```
 
-```
-Navigate to the project directory:
 
+Navigate to the project directory:
+```
 cd portfolio-website
 ```
 
-```
-Install dependencies:
 
+Install dependencies:
+```
 npm install
 ```
 
-```
-Run the development server:
 
+Run the development server:
+```
 npm run dev
 ```
-```
-Build for production:
 
+Build for production:
+```
 npm run build
 ```
 
