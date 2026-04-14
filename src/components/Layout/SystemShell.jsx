@@ -1,21 +1,17 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import NavBar from './NavBar'
-import './SystemShell.css'
-
-
-
-import CustomCursor from './CustomCursor'
 import BackgroundSystem from './BackgroundSystem'
+import CustomCursor from './CustomCursor'
+import './SystemShell.css'
 
 const SystemShell = () => {
     return (
         <div className="system-shell">
-            <CustomCursor />
             <BackgroundSystem />
-            <div className="scanlines"></div>
+            <CustomCursor />
             <NavBar />
-            <main className="main-content">
+            <main className="shell-main">
                 <Outlet />
             </main>
         </div>

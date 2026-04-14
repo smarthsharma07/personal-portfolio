@@ -1,284 +1,99 @@
-/* HardwareModule — Amber/Gold Theme */
-
-/* ── Content layout ──────────────────────────── */
-.hw-content {
-    position: relative;
-    z-index: 5;
-    max-width: 960px;
-    margin: 0 auto;
-}
-
-.hw-header-tag {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--accent-gold);
-    letter-spacing: 0.1em;
-    margin-bottom: 6px;
-    opacity: 0.6;
-}
-
-.hw-title {
-    font-family: var(--font-display), var(--font-mono);
-    font-size: clamp(1.5rem, 4vw, 2.4rem);
-    color: var(--accent-gold);
-    text-shadow: 0 0 24px rgba(245, 158, 11, 0.4);
-    letter-spacing: 0.08em;
-    margin-bottom: 10px;
-}
-
-.hw-title-line {
-    height: 1px;
-    background: linear-gradient(90deg, var(--accent-gold), var(--accent-secondary), transparent);
-    margin-bottom: 10px;
-    opacity: 0.45;
-}
-
-.hw-subtitle {
-    font-family: var(--font-mono);
-    font-size: clamp(0.73rem, 1.3vw, 0.84rem);
-    color: var(--text-dim);
-    letter-spacing: 0.04em;
-    margin-bottom: clamp(20px, 3vw, 36px);
-}
-
-/* ── Main 2-col grid ─────────────────────────── */
-.hw-main-grid {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: clamp(14px, 2.5vw, 24px);
-}
-
-@media (max-width: 768px) {
-    .hw-main-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* ── Specs panel ─────────────────────────────── */
-.hw-specs-panel {
-    background: rgba(245, 158, 11, 0.03);
-    border: 1px solid rgba(245, 158, 11, 0.12);
-    border-top: 2px solid rgba(245, 158, 11, 0.35);
-    padding: clamp(16px, 2.5vw, 22px);
-    backdrop-filter: blur(12px);
-    height: fit-content;
-}
-
-.hw-spec-row {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(245, 158, 11, 0.08);
-}
-
-.hw-spec-row:last-of-type {
-    border-bottom: none;
-}
-
-.hw-spec-label {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-}
-
-.hw-spec-val {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--accent-gold);
-}
-
-.hw-prep-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.hw-prep-list li {
-    font-family: var(--font-mono);
-    font-size: clamp(0.73rem, 1.3vw, 0.8rem);
-    color: var(--text-secondary);
-    padding-left: 14px;
+/* ── Hardware Circuit / Module ─────────────────── */
+.hardware-module {
     position: relative;
 }
 
-.hw-prep-list li::before {
-    content: '›';
-    position: absolute;
-    left: 1px;
-    color: var(--accent-gold);
-}
-
-/* ── Projects col ────────────────────────────── */
-.hw-projects-col {
+/* ── Coming Soon (shared across HW & Games) ──── */
+.coming-soon-center {
+    flex: 1;
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
     gap: 16px;
+    z-index: 5;
+    position: relative;
+    padding: 60px 20px;
 }
 
-.hardware-circuit-container {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
+.coming-soon-icon {
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.6);
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+    margin-bottom: 8px;
+    animation: float 4s ease-in-out infinite;
 }
 
-.circuit-canvas {
-    display: block;
-}
-
-.central-chip {
-    position: absolute;
-    background: rgba(245, 158, 11, 0.06);
-    border: 1px solid rgba(245, 158, 11, 0.2);
-    width: 60px;
-    height: 60px;
-    animation: chipPulse 4s ease-in-out infinite;
-}
-
-.chip-center {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: chipPulse 3s ease-in-out infinite;
-    border-color: rgba(245, 158, 11, 0.35);
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.08), inset 0 0 20px rgba(245, 158, 11, 0.04);
-}
-
-.chip-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-
-.chip-logo {
-    font-size: 1.8rem;
-    color: var(--accent-gold);
-    text-shadow: 0 0 14px rgba(245, 158, 11, 0.6);
-    animation: chipPulse 2s ease-in-out infinite;
-}
-
-@keyframes chipPulse {
+@keyframes float {
 
     0%,
     100% {
-        opacity: 0.5;
-        box-shadow: 0 0 12px rgba(245, 158, 11, 0.05);
+        transform: translateY(0);
     }
 
     50% {
-        opacity: 1;
-        box-shadow: 0 0 24px rgba(245, 158, 11, 0.15);
+        transform: translateY(-8px);
     }
 }
 
-.chip-top-left {
-    top: 15%;
-    left: 10%;
-    animation-delay: 0.3s;
-}
-
-.chip-top-right {
-    top: 15%;
-    right: 10%;
-    animation-delay: 0.6s;
-}
-
-.chip-bottom-left {
-    bottom: 15%;
-    left: 10%;
-    animation-delay: 0.9s;
-}
-
-.chip-bottom-right {
-    bottom: 15%;
-    right: 10%;
-    animation-delay: 1.2s;
-}
-
-.chip-mid-left {
-    top: 48%;
-    left: 5%;
-    animation-delay: 1.5s;
-    width: 40px;
-    height: 40px;
-}
-
-.chip-mid-right {
-    top: 48%;
-    right: 5%;
-    animation-delay: 1.8s;
-    width: 40px;
-    height: 40px;
-}
-
-/* Hardware accent overrides */
-.hardware-module .panel-label {
-    color: var(--accent-gold);
-}
-
-.hardware-module .panel-label::before {
-    color: var(--accent-gold);
-}
-
-.hardware-module .panel-label::after {
-    background: linear-gradient(to right, rgba(245, 158, 11, 0.4), transparent);
-}
-
-.hardware-module .sys-panel {
-    border-left-color: rgba(245, 158, 11, 0.35);
-}
-
-.hardware-module .sys-panel:hover {
-    border-left-color: var(--accent-gold);
-    box-shadow: -6px 0 30px -8px rgba(245, 158, 11, 0.2);
-}
-
-.hardware-module .metric-val.accent {
-    color: var(--accent-gold);
-}
-
-.hardware-module .header-line {
-    background: linear-gradient(90deg, var(--accent-gold), var(--accent-secondary), transparent);
-}
-
-.hardware-module .header-line::before {
-    background: var(--accent-gold);
-    box-shadow: 0 0 8px var(--accent-gold);
-}
-
-/* log-list */
-.log-list {
-    list-style: none;
-    padding: 0;
-}
-
-.log-list li {
+.coming-soon-title {
     font-family: var(--font-mono);
-    font-size: clamp(0.78rem, 1.4vw, 0.86rem);
-    color: var(--text-secondary);
-    padding: 4px 0 4px 14px;
-    position: relative;
-    border-left: 1px solid rgba(245, 158, 11, 0.12);
-    margin-bottom: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.3em;
+    font-size: 1.3rem;
+    text-align: center;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
 }
 
-.log-list li::before {
-    content: '›';
-    position: absolute;
-    left: 3px;
-    color: var(--accent-gold);
+.coming-soon-desc {
+    font-family: var(--font-mono);
+    color: rgba(255, 255, 255, 0.4);
+    max-width: 420px;
+    text-align: center;
+    line-height: 1.7;
+    font-size: 0.82rem;
+}
+
+.coming-soon-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.coming-soon-bar {
+    flex: 1;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.coming-soon-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.7));
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+}
+
+.coming-soon-pct {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.1em;
+}
+
+.coming-soon-badge {
+    margin-top: 12px;
+    padding: 10px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-sm);
 }

@@ -1,36 +1,10 @@
 .system-shell {
     min-height: 100vh;
-    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-.main-content {
-    margin-top: var(--nav-height);
-    padding: clamp(20px, 4vw, 48px) clamp(12px, 3vw, 28px);
-    max-width: var(--container-width);
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    z-index: 1;
-}
-
-/* CRT scanlines — very subtle */
-.scanlines {
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(to bottom,
-            transparent,
-            transparent 3px,
-            rgba(0, 0, 0, 0.06) 3px,
-            rgba(0, 0, 0, 0.06) 4px);
-    pointer-events: none;
-    z-index: 50;
-    opacity: 0.4;
-}
-
-/* Mobile: account for bottom tab bar */
-@media (max-width: 600px) {
-    .main-content {
-        margin-top: 0;
-        padding-bottom: calc(var(--nav-height) + 20px);
-    }
+.shell-main {
+    flex: 1;
+    padding-top: var(--nav-height);
 }

@@ -1,134 +1,60 @@
-/* ── Main cursor root ─────────────────────────────────────── */
-.cursor-root {
+.cursor-system {
     position: fixed;
+    inset: 0;
     pointer-events: none;
     z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.08s ease;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-.cursor-root.clicked {
-    transform: translate(-50%, -50%) scale(0.8);
+.cursor-visible {
+    opacity: 1;
 }
 
-.cursor-root.hover .cursor-ring {
-    width: 30px;
-    height: 30px;
-    border-color: var(--accent-secondary);
-    box-shadow: 0 0 14px var(--accent-secondary);
-}
-
-.cursor-root.hover .cursor-ring-outer {
-    width: 46px;
-    height: 46px;
-    opacity: 0.4;
-}
-
-/* ── Core dot ─────────────────────────────────────────────── */
-.cursor-core {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background: #fff;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 6px var(--accent);
-}
-
-/* ── Inner ring ───────────────────────────────────────────── */
-.cursor-ring {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border: 1px solid var(--accent);
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 8px var(--accent-dim);
-    transition: width 0.2s, height 0.2s, border-color 0.2s;
-}
-
-/* ── Outer rotating ring ──────────────────────────────────── */
-.cursor-ring-outer {
-    position: absolute;
-    width: 36px;
-    height: 36px;
-    border: 1px solid transparent;
-    border-top-color: var(--accent);
-    border-right-color: rgba(124, 58, 237, 0.5);
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: outerSpin 3s linear infinite;
-    transition: width 0.2s, height 0.2s, opacity 0.2s;
-    opacity: 0.7;
-}
-
-@keyframes outerSpin {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
-}
-
-/* ── Glow ─────────────────────────────────────────────────── */
-.cursor-glow {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, transparent 70%);
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-}
-
-/* ── Trail dots ───────────────────────────────────────────── */
-.cursor-trail {
+.cursor-dot {
     position: fixed;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transition: none;
-}
-
-/* ── Click ripple ─────────────────────────────────────────── */
-.cursor-ripple {
-    position: fixed;
+    top: -4px;
+    left: -4px;
     width: 8px;
     height: 8px;
-    border: 1.5px solid var(--accent);
+    background: #ffffff;
     border-radius: 50%;
+    box-shadow:
+        0 0 6px rgba(255, 255, 255, 0.8),
+        0 0 15px rgba(255, 255, 255, 0.4),
+        0 0 30px rgba(255, 255, 255, 0.15);
+    will-change: transform;
     pointer-events: none;
-    z-index: 9997;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 1;
-    animation: rippleExpand 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-@keyframes rippleExpand {
-    0% {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 0.8;
+.cursor-trail {
+    position: fixed;
+    top: -3px;
+    left: -3px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    will-change: transform, opacity;
+    pointer-events: none;
+    transition: opacity 0.1s ease;
+}
+
+/* Hide default cursor site-wide */
+*,
+*::before,
+*::after {
+    cursor: none !important;
+}
+
+/* On touch / small screens, restore default cursor */
+@media (hover: none),
+(max-width: 768px) {
+    .cursor-system {
+        display: none;
     }
 
-    80% {
-        transform: translate(-50%, -50%) scale(5);
-        opacity: 0.2;
-    }
-
-    100% {
-        transform: translate(-50%, -50%) scale(6);
-        opacity: 0;
+    *,
+    *::before,
+    *::after {
+        cursor: auto !important;
     }
 }

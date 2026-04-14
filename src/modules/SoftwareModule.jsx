@@ -35,9 +35,9 @@ const softwareProjects = [
     },
     {
         id: 'SW-004',
-        title: 'Personal Portfolio Website',
+        title: 'Personal Portfolio',
         description:
-            'Personal developer portfolio showcasing projects, technical skills, and academic background with a futuristic cyberpunk design system and custom canvas animations.',
+            'Personal developer portfolio showcasing projects, technical skills, and academic background with a deep space design system and animated starfield canvas.',
         techStack: ['JavaScript', 'React.js', 'Vite', 'CSS3'],
         githubUrl: 'https://github.com/smarthsharma07/portfolio',
         liveUrl: '',
@@ -57,15 +57,15 @@ const SoftwareModule = () => {
         const drops = Array.from({ length: columns }, () => Math.random() * -100)
 
         const draw = () => {
-            ctx.fillStyle = 'rgba(3, 5, 18, 0.07)'
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.07)'
             ctx.fillRect(0, 0, width, height)
             ctx.font = '13px monospace'
             for (let i = 0; i < drops.length; i++) {
                 const text = String.fromCharCode(0x30A0 + Math.random() * 96)
                 const r = Math.random()
                 ctx.fillStyle = r > 0.75
-                    ? `rgba(255, 45, 120, ${0.3 + Math.random() * 0.7})`
-                    : `rgba(124, 58, 237, ${0.2 + Math.random() * 0.4})`
+                    ? `rgba(255, 255, 255, ${0.3 + Math.random() * 0.5})`
+                    : `rgba(255, 255, 255, ${0.05 + Math.random() * 0.1})`
                 ctx.fillText(text, i * 20, drops[i] * 20)
                 if (drops[i] * 20 > height && Math.random() > 0.975) drops[i] = 0
                 drops[i]++
@@ -81,19 +81,17 @@ const SoftwareModule = () => {
     }, [])
 
     const stats = [
-        { label: 'PROJECTS SHIPPED', value: '04', color: 'var(--accent-pink)' },
-        { label: 'HACKATHONS', value: '02', color: 'var(--accent-secondary)' },
-        { label: 'LANGUAGES', value: '08', color: 'var(--accent)' },
-        { label: 'STATUS', value: 'ACTIVE', color: 'var(--success)' },
+        { label: 'PROJECTS SHIPPED', value: '04' },
+        { label: 'HACKATHONS', value: '02' },
+        { label: 'LANGUAGES', value: '08' },
+        { label: 'STATUS', value: 'ACTIVE' },
     ]
 
     return (
         <div className="module-container sw-module" style={{ position: 'relative', overflow: 'hidden' }}>
-            {/* Digital Rain Background */}
-            <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.45 }} />
+            <canvas ref={canvasRef} className="sw-rain-canvas" />
 
             <div className="sw-content">
-                {/* Header */}
                 <header className="module-header">
                     <div className="sw-header-tag">// MODULE 04</div>
                     <h1 className="sw-title">SOFTWARE_SYSTEMS</h1>
@@ -101,34 +99,31 @@ const SoftwareModule = () => {
                     <p className="sw-subtitle">Full-stack builds, hackathon sprints & shipped products</p>
                 </header>
 
-                {/* Stats bar */}
                 <div className="sw-stats-row">
                     {stats.map(s => (
                         <div key={s.label} className="sw-stat">
-                            <span className="sw-stat-val" style={{ color: s.color }}>{s.value}</span>
+                            <span className="sw-stat-val">{s.value}</span>
                             <span className="sw-stat-label">{s.label}</span>
                         </div>
                     ))}
                 </div>
 
-                {/* Terminal overview panel */}
                 <div className="sw-terminal">
                     <div className="sw-terminal-bar">
-                        <span className="terminal-dot td-red" />
-                        <span className="terminal-dot td-yellow" />
-                        <span className="terminal-dot td-green" />
+                        <span className="terminal-dot" />
+                        <span className="terminal-dot" />
+                        <span className="terminal-dot" />
                         <span className="terminal-title">smarth@vortex:~/software $</span>
                     </div>
                     <div className="sw-terminal-body">
-                        <div className="sw-terminal-line"><span className="tc-dim">$</span> <span className="tc-pink">git log</span> --oneline --all</div>
-                        <div className="sw-terminal-line tc-dim">Showing <span className="tc-cyan">4</span> commits across <span className="tc-violet">3</span> repos</div>
+                        <div className="sw-terminal-line"><span className="tc-dim">$</span> <span className="tc-bright">git log</span> --oneline --all</div>
+                        <div className="sw-terminal-line tc-dim">Showing <span className="tc-bright">4</span> commits across <span className="tc-bright">3</span> repos</div>
                         <div className="sw-terminal-line"><span className="tc-dim">→</span> Prioritizing clean architecture over clever hacks</div>
                         <div className="sw-terminal-line"><span className="tc-dim">→</span> Focus: readable, maintainable, production-ready code</div>
                         <div className="sw-terminal-line tc-dim blink-line">█</div>
                     </div>
                 </div>
 
-                {/* Project Cards Grid */}
                 <div className="sw-label-row">
                     <span className="sw-section-label">▶ PROJECT_LOG</span>
                     <span className="sw-count">{softwareProjects.length} ENTRIES</span>

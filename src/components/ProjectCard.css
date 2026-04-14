@@ -1,293 +1,181 @@
+/* ── Project Card ─────────────────────────────── */
 .project-card {
-    position: relative;
-    background: rgba(6, 9, 24, 0.7);
+    background: rgba(10, 10, 10, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    border-top: 1.5px solid rgba(0, 240, 255, 0.2);
-    padding: clamp(18px, 3vw, 28px);
-    transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    overflow: hidden;
+    border-radius: var(--radius-md);
+    padding: 24px;
+    position: relative;
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    will-change: transform;
-    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
-}
-
-/* Per-module top border tints */
-.sw-module .project-card {
-    border-top-color: rgba(255, 45, 120, 0.3);
-}
-
-.ml-module .project-card {
-    border-top-color: rgba(124, 58, 237, 0.3);
-}
-
-.hardware-module .project-card {
-    border-top-color: rgba(245, 158, 11, 0.3);
-}
-
-.game-module .project-card {
-    border-top-color: rgba(0, 255, 136, 0.3);
-}
-
-/* Top scan-line on hover */
-.project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 1.5px;
-    background: linear-gradient(90deg, transparent, var(--accent-pink), var(--accent), transparent);
-    transition: left 0.5s ease;
-}
-
-.project-card:hover::before {
-    left: 100%;
-}
-
-.sw-module .project-card::before {
-    background: linear-gradient(90deg, transparent, var(--accent-pink), var(--accent-secondary), transparent);
-}
-
-.ml-module .project-card::before {
-    background: linear-gradient(90deg, transparent, var(--accent-secondary), var(--accent-pink), transparent);
-}
-
-.hardware-module .project-card::before {
-    background: linear-gradient(90deg, transparent, var(--accent-gold), var(--accent), transparent);
-}
-
-.game-module .project-card::before {
-    background: linear-gradient(90deg, transparent, var(--success), var(--accent), transparent);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
 }
 
 .project-card:hover {
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
     box-shadow:
-        0 12px 60px rgba(0, 0, 0, 0.65),
-        0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+        0 0 30px rgba(255, 255, 255, 0.04),
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.02);
+    transform: translateY(-2px);
 }
 
-/* Holographic shimmer */
-.card-shimmer {
+/* Corner accents */
+.card-corner {
     position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-            rgba(0, 240, 255, 0.06) 0%,
-            rgba(124, 58, 237, 0.03) 40%,
-            transparent 70%);
-    pointer-events: none;
+    width: 20px;
+    height: 20px;
     opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 0;
+    transition: opacity 0.4s ease;
 }
 
-.sw-module .card-shimmer {
-    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-            rgba(255, 45, 120, 0.07) 0%, rgba(124, 58, 237, 0.03) 40%, transparent 70%);
-}
-
-.project-card:hover .card-shimmer {
+.project-card:hover .card-corner {
     opacity: 1;
 }
 
-.card-glow {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
+.card-corner-tl {
+    top: 0;
+    left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.card-header,
-.card-section,
-.card-footer {
-    position: relative;
-    z-index: 1;
+.card-corner-br {
+    bottom: 0;
+    right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+/* ── Card Header ──────────────────────────────── */
 .card-header {
-    margin-bottom: clamp(12px, 2vw, 18px);
-}
-
-.card-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
-    font-family: var(--font-mono);
-    font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+    margin-bottom: 14px;
 }
 
 .card-id {
-    color: var(--accent-secondary);
-    letter-spacing: 0.08em;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.25);
 }
 
 .card-status {
-    font-size: clamp(0.62rem, 1.1vw, 0.72rem);
-    letter-spacing: 0.05em;
-    padding: 2px 8px;
-    border-radius: 2px;
-}
-
-.card-status.status-deployed {
-    color: var(--success);
-    background: rgba(0, 255, 136, 0.07);
-    border: 1px solid rgba(0, 255, 136, 0.2);
-}
-
-.card-status.status-active {
-    color: var(--accent);
-    background: rgba(0, 240, 255, 0.07);
-    border: 1px solid rgba(0, 240, 255, 0.2);
-}
-
-.card-status.status-hackathon {
-    color: var(--accent-gold);
-    background: rgba(245, 158, 11, 0.07);
-    border: 1px solid rgba(245, 158, 11, 0.22);
-}
-
-.card-status.status-wip {
-    color: var(--text-dim);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.card-status.status-archived {
-    color: var(--text-dim);
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.card-title {
-    font-family: var(--font-display), var(--font-mono);
-    font-size: clamp(1rem, 2.2vw, 1.2rem);
-    letter-spacing: 0.06em;
-    color: var(--text-primary);
-}
-
-.card-section {
-    margin-bottom: clamp(12px, 2vw, 18px);
-}
-
-.card-description {
-    font-size: clamp(0.8rem, 1.5vw, 0.9rem);
-    color: var(--text-secondary);
-    line-height: 1.65;
-}
-
-.section-label {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-    margin-bottom: 8px;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    padding: 3px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
 }
 
-.tech-stack {
+.status-deployed {
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.status-active {
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.status-hackathon {
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-wip {
+    color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ── Card Content ─────────────────────────────── */
+.card-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    letter-spacing: 0.06em;
+    color: #fff;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.card-desc {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 16px;
+}
+
+/* ── Tech Tags ────────────────────────────────── */
+.card-tech {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+    margin-bottom: 18px;
 }
 
-.tech-badge {
+.tech-tag {
     font-family: var(--font-mono);
-    font-size: clamp(0.62rem, 1.1vw, 0.7rem);
-    color: var(--text-secondary);
-    background: rgba(0, 240, 255, 0.05);
-    border: 1px solid rgba(0, 240, 255, 0.13);
-    padding: 3px 9px;
-    border-radius: var(--radius-sm);
-    letter-spacing: 0.04em;
-    transition: all 0.2s;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
 }
 
-.tech-badge:hover {
-    background: rgba(0, 240, 255, 0.1);
-    border-color: rgba(0, 240, 255, 0.3);
-    color: var(--accent);
-    box-shadow: 0 0 8px rgba(0, 240, 255, 0.1);
+.project-card:hover .tech-tag {
+    border-color: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.7);
 }
 
-.sw-module .tech-badge:hover {
-    color: var(--accent-pink);
-    border-color: rgba(255, 45, 120, 0.3);
-    background: rgba(255, 45, 120, 0.08);
-}
-
-.card-footer {
+/* ── Card Actions ─────────────────────────────── */
+.card-actions {
     display: flex;
     gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 4px;
 }
 
 .card-link {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 6px;
     font-family: var(--font-mono);
-    font-size: clamp(0.65rem, 1.2vw, 0.74rem);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 5px 11px;
-    border: 1px solid transparent;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.45);
+    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-sm);
-    transition: all 0.22s;
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
-.link-arrow {
-    transition: transform 0.22s;
-    display: inline-block;
+.card-link:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.06);
 }
 
-.card-link:hover .link-arrow {
-    transform: translateX(4px);
-}
-
-.github-link {
-    color: var(--text-secondary);
-    border-color: rgba(0, 240, 255, 0.2);
-}
-
-.github-link:hover {
-    color: var(--accent);
-    border-color: rgba(0, 240, 255, 0.5);
-    background: rgba(0, 240, 255, 0.08);
-    box-shadow: 0 0 14px rgba(0, 240, 255, 0.1);
-}
-
-.live-link {
-    color: var(--text-secondary);
-    border-color: rgba(124, 58, 237, 0.25);
-}
-
-.live-link:hover {
-    color: var(--accent-secondary);
-    border-color: rgba(124, 58, 237, 0.5);
-    background: rgba(124, 58, 237, 0.08);
-    box-shadow: 0 0 14px rgba(124, 58, 237, 0.1);
-}
-
-/* Software module link overrides */
-.sw-module .live-link {
-    border-color: rgba(255, 45, 120, 0.25);
-}
-
-.sw-module .live-link:hover {
-    color: var(--accent-pink);
-    border-color: rgba(255, 45, 120, 0.5);
-    background: rgba(255, 45, 120, 0.08);
-    box-shadow: 0 0 14px rgba(255, 45, 120, 0.1);
-}
-
+/* ── Responsive ───────────────────────────────── */
 @media (max-width: 480px) {
     .project-card {
-        padding: 16px;
+        padding: 18px;
     }
 
     .card-title {
-        font-size: 0.95rem;
+        font-size: 1rem;
+    }
+
+    .card-actions {
+        flex-direction: column;
+        gap: 8px;
     }
 }

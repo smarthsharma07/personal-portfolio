@@ -1,113 +1,146 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './BackgroundSystem.css'
 
 const BackgroundSystem = () => {
     const canvasRef = useRef(null)
-    const mouseRef = useRef({ x: 0, y: 0 }) // Use a ref for mouse to prevent unnecessary re-renders
 
-    // Mouse tracking for parallax using Ref to keep animation smooth
-    useEffect(() => {
-        const handleMove = (e) => {
-            mouseRef.current = { x: e.clientX, y: e.clientY }
-        }
-        window.addEventListener('mousemove', handleMove)
-        return () => window.removeEventListener('mousemove', handleMove)
-    }, [])
-
-    // Star Field (Data Nodes) Animation
     useEffect(() => {
         const canvas = canvasRef.current
         const ctx = canvas.getContext('2d')
-        let width = window.innerWidth
-        let height = window.innerHeight
-        canvas.width = width
-        canvas.height = height
+        let w, h
+        let stars = []
+        let shootingStars = []
+        let raf
 
-        const stars = []
-        // --- MODIFICATIONS START ---
-        const numStars = 400; // Increased from 100 for higher density
-        const speed = 0.8;    // Increased from 0.2 for faster movement
-        // --- MODIFICATIONS END ---
+        const resize = () => {
+            w = canvas.width = window.innerWidth
+            h = canvas.height = window.innerHeight
+        }
 
-        for (let i = 0; i < numStars; i++) {
-            stars.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                z: Math.random() * 2 + 0.5, // Depth for parallax
-                size: Math.random() * 1.5,
-                alpha: Math.random()
+        // Star layers: far (slow, dim), mid, near (fast, bright)
+        const createStars = () => {
+            stars = []
+            const layers = [
+                { count: 200, speed: 0.08, sizeRange: [0.3, 0.8], opacity: 0.3 },
+                { count: 120, speed: 0.15, sizeRange: [0.5, 1.2], opacity: 0.5 },
+                { count: 60, speed: 0.25, sizeRange: [1.0, 2.0], opacity: 0.8 },
+            ]
+            layers.forEach(layer => {
+                for (let i = 0; i < layer.count; i++) {
+                    stars.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        size: layer.sizeRange[0] + Math.random() * (layer.sizeRange[1] - layer.sizeRange[0]),
+                        speed: layer.speed,
+                        baseOpacity: layer.opacity,
+                        twinkleSpeed: 0.005 + Math.random() * 0.02,
+                        twinkleOffset: Math.random() * Math.PI * 2,
+                    })
+                }
             })
         }
 
-        let animationFrameId
+        const spawnShootingStar = () => {
+            if (shootingStars.length >= 2) return
+            const startX = Math.random() * w * 0.8
+            const startY = Math.random() * h * 0.3
+            shootingStars.push({
+                x: startX,
+                y: startY,
+                vx: 4 + Math.random() * 4,
+                vy: 2 + Math.random() * 3,
+                life: 0,
+                maxLife: 40 + Math.random() * 30,
+                trail: [],
+            })
+        }
 
-        const render = () => {
-            ctx.clearRect(0, 0, width, height)
+        let time = 0
+        const animate = () => {
+            time++
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)'
+            ctx.fillRect(0, 0, w, h)
 
-            // Parallax offset using the ref
-            const offsetX = (mouseRef.current.x - width / 2) * 0.02
-            const offsetY = (mouseRef.current.y - height / 2) * 0.02
+            // Stars
+            stars.forEach(s => {
+                const twinkle = Math.sin(time * s.twinkleSpeed + s.twinkleOffset) * 0.3 + 0.7
+                const opacity = s.baseOpacity * twinkle
+                ctx.beginPath()
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2)
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`
+                ctx.fill()
 
-            ctx.fillStyle = '#ffffff'
-            stars.forEach(star => {
-                // Update position (Falling effect)
-                star.y -= speed * star.z
-
-                // Reset star to bottom when it leaves the top
-                if (star.y < 0) {
-                    star.y = height
-                    star.x = Math.random() * width
+                // Subtle cross on bright stars
+                if (s.size > 1.5 && twinkle > 0.85) {
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.3})`
+                    ctx.lineWidth = 0.5
+                    const len = s.size * 3
+                    ctx.beginPath()
+                    ctx.moveTo(s.x - len, s.y)
+                    ctx.lineTo(s.x + len, s.y)
+                    ctx.stroke()
+                    ctx.beginPath()
+                    ctx.moveTo(s.x, s.y - len)
+                    ctx.lineTo(s.x, s.y + len)
+                    ctx.stroke()
                 }
 
-                // Draw
-                ctx.globalAlpha = star.alpha * 0.5
-                ctx.beginPath()
-                // Apply parallax based on depth (z)
-                ctx.arc(star.x + (offsetX * star.z), star.y + (offsetY * star.z), star.size, 0, Math.PI * 2)
-                ctx.fill()
+                // Slow drift
+                s.y += s.speed
+                if (s.y > h + 5) {
+                    s.y = -5
+                    s.x = Math.random() * w
+                }
             })
-            animationFrameId = requestAnimationFrame(render)
+
+            // Shooting stars
+            shootingStars.forEach((ss, idx) => {
+                ss.life++
+                ss.x += ss.vx
+                ss.y += ss.vy
+                ss.trail.push({ x: ss.x, y: ss.y })
+                if (ss.trail.length > 20) ss.trail.shift()
+
+                // Draw trail
+                for (let i = 0; i < ss.trail.length; i++) {
+                    const alpha = (i / ss.trail.length) * (1 - ss.life / ss.maxLife) * 0.8
+                    const size = (i / ss.trail.length) * 2
+                    ctx.beginPath()
+                    ctx.arc(ss.trail[i].x, ss.trail[i].y, size, 0, Math.PI * 2)
+                    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`
+                    ctx.fill()
+                }
+
+                if (ss.life > ss.maxLife || ss.x > w || ss.y > h) {
+                    shootingStars.splice(idx, 1)
+                }
+            })
+
+            // Random shooting star spawn
+            if (Math.random() < 0.003) spawnShootingStar()
+
+            raf = requestAnimationFrame(animate)
         }
 
-        render()
+        resize()
+        createStars()
+        animate()
 
-        const handleResize = () => {
-            width = window.innerWidth
-            height = window.innerHeight
-            canvas.width = width
-            canvas.height = height
-        }
-        window.addEventListener('resize', handleResize)
+        window.addEventListener('resize', () => {
+            resize()
+            createStars()
+        })
 
         return () => {
-            cancelAnimationFrame(animationFrameId)
-            window.removeEventListener('resize', handleResize)
+            cancelAnimationFrame(raf)
         }
-    }, []) // Removed [mouse] dependency to prevent star-field jittering
+    }, [])
 
     return (
-        <div className="background-system">
-            <canvas ref={canvasRef} className="star-canvas" />
-            <div className="aurora-sweep" />
-
-            {/* Digital Circuits Overlay */}
-            <svg className="circuit-overlay" width="100%" height="100%">
-                <defs>
-                    <linearGradient id="trace-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="rgba(0, 240, 255, 0)" />
-                        <stop offset="50%" stopColor="rgba(0, 240, 255, 1)" />
-                        <stop offset="100%" stopColor="rgba(0, 240, 255, 0)" />
-                    </linearGradient>
-                </defs>
-                <path className="circuit-path" d="M 100 0 V 100 H 200 V 300" />
-                <path className="circuit-path" d="M 800 1000 V 800 H 600 V 600" />
-                <path className="circuit-path" d="M 0 500 H 100 L 150 550 H 300" />
-                <path className="circuit-path delay-1" d="M 1000 200 H 900 L 850 250 H 700" />
-
-                <circle className="circuit-node" cx="200" cy="300" r="2" />
-                <circle className="circuit-node" cx="600" cy="600" r="2" />
-            </svg>
-        </div>
+        <>
+            <canvas ref={canvasRef} className="starfield-canvas" />
+            <div className="grid-schema" />
+        </>
     )
 }
 

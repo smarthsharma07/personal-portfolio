@@ -1,47 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Rajdhani:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  /* ── Background ───────────────────────────── */
-  --bg-primary: #030512;
-  --bg-secondary: #060918;
-  --bg-contrast: #0d1229;
-  --bg-glass: rgba(6, 9, 24, 0.65);
+  /* ── Void ────────────────────────────────── */
+  --bg-void: #000000;
+  --bg-deep: #050505;
+  --bg-nebula: #0a0a0a;
+  --bg-panel: #111111;
+  --bg-glass: rgba(10, 10, 10, 0.7);
 
-  /* ── Text ─────────────────────────────────── */
-  --text-primary: #e8ecff;
-  --text-secondary: #7a82aa;
-  --text-dim: #2e3555;
+  /* ── Light ───────────────────────────────── */
+  --white: #ffffff;
+  --white-90: rgba(255, 255, 255, 0.9);
+  --white-70: rgba(255, 255, 255, 0.7);
+  --white-50: rgba(255, 255, 255, 0.5);
+  --white-30: rgba(255, 255, 255, 0.3);
+  --white-15: rgba(255, 255, 255, 0.15);
+  --white-08: rgba(255, 255, 255, 0.08);
+  --white-04: rgba(255, 255, 255, 0.04);
 
-  /* ── Accents ──────────────────────────────── */
-  --accent: #00f0ff;
-  /* Cyan       */
-  --accent-dim: rgba(0, 240, 255, 0.12);
-  --accent-secondary: #7c3aed;
-  /* Violet     */
-  --accent-secondary-dim: rgba(124, 58, 237, 0.12);
-  --accent-pink: #ff2d78;
-  /* Hot pink   */
-  --accent-pink-dim: rgba(255, 45, 120, 0.12);
-  --accent-gold: #f59e0b;
-  /* Amber      */
-  --accent-gold-dim: rgba(245, 158, 11, 0.12);
-  --success: #00ff88;
-  /* Neon green */
-  --error: #ff3355;
-
-  /* ── Typography ───────────────────────────── */
+  /* ── Typography ──────────────────────────── */
   --font-mono: 'JetBrains Mono', monospace;
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'Rajdhani', sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
 
-  /* ── Layout ───────────────────────────────── */
+  /* ── Layout ──────────────────────────────── */
   --nav-height: 60px;
   --container-width: 1200px;
   --radius-sm: 3px;
   --radius-md: 6px;
+  --radius-lg: 12px;
 }
 
-/* ── Reset ────────────────────────────────────────────── */
+/* ── Reset ─────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -50,68 +40,42 @@
   padding: 0;
 }
 
-/* ── Body ─────────────────────────────────────────────── */
+/* ── Body ──────────────────────────────────────────── */
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: var(--bg-void);
+  color: var(--white-90);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.65;
   overflow-x: hidden;
   cursor: none;
-  /* Deep space nebula */
-  background-image:
-    radial-gradient(ellipse 90% 55% at 50% -5%, rgba(124, 58, 237, 0.14) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 40% at 85% 85%, rgba(0, 240, 255, 0.07) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 35% at 10% 90%, rgba(255, 45, 120, 0.05) 0%, transparent 50%);
 }
 
-/* ── Noise overlay ────────────────────────────────────── */
+/* ── Noise overlay (subtle film grain) ─────────────── */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9000;
-  opacity: 0.022;
+  opacity: 0.018;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ── Technical grid ───────────────────────────────────── */
+/* ── Space grid ────────────────────────────────────── */
 .grid-schema {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  background-size: 48px 48px;
-  background-image:
-    linear-gradient(to right, rgba(0, 240, 255, 0.022) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 240, 255, 0.022) 1px, transparent 1px);
-  mask-image: linear-gradient(to bottom, black 25%, transparent 100%);
-}
-
-.circuits-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
-    linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
-  background-size: 100% 100%, 40px 40px, 40px 40px;
-  opacity: 0.6;
-}
-
-.circuits-bg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(45deg, transparent 48%, rgba(0, 255, 136, 0.08) 50%, transparent 52%);
   background-size: 60px 60px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent 70%);
 }
 
 .app-root {
@@ -120,18 +84,18 @@ body::after {
   flex-direction: column;
 }
 
-/* ── Typography ───────────────────────────────────────── */
+/* ── Typography ────────────────────────────────────── */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-display), var(--font-mono);
+  font-family: var(--font-display);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-primary);
+  letter-spacing: 0.08em;
+  color: var(--white);
 }
 
 a {
@@ -144,51 +108,141 @@ pre {
   font-family: var(--font-mono);
 }
 
-/* ── Scrollbar ────────────────────────────────────────── */
+/* ── Scrollbar ─────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: var(--bg-void);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, var(--accent-pink), var(--accent));
+  background: var(--white-30);
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: var(--white-50);
 }
 
-/* ── Util classes ─────────────────────────────────────── */
+/* ── Utility classes ───────────────────────────────── */
 .mono {
   font-family: var(--font-mono);
 }
 
 .accent {
-  color: var(--accent);
-}
-
-.accent-pink {
-  color: var(--accent-pink);
+  color: var(--white);
+  text-shadow: 0 0 8px var(--white-50);
 }
 
 .dim {
-  color: var(--text-dim);
+  color: var(--white-30);
 }
 
-/* ── Global glow helpers ──────────────────────────────── */
-.glow-cyan {
-  text-shadow: 0 0 14px rgba(0, 240, 255, 0.7);
+/* ── Global glow helpers ───────────────────────────── */
+.glow-white {
+  text-shadow: 0 0 20px var(--white-50), 0 0 40px var(--white-15);
 }
 
-.glow-pink {
-  text-shadow: 0 0 14px rgba(255, 45, 120, 0.7);
+.glow-subtle {
+  text-shadow: 0 0 10px var(--white-30);
 }
 
-/* ── Responsive ───────────────────────────────────────── */
+/* ── Panel system - shared across modules ──────────── */
+.module-container {
+  padding: 40px 30px 60px;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+}
+
+.module-header {
+  margin-bottom: 40px;
+}
+
+.module-header h1 {
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  letter-spacing: 0.12em;
+  color: var(--white);
+  text-shadow: 0 0 30px var(--white-30), 0 0 60px var(--white-08);
+  display: inline-block;
+  cursor: default;
+  transition: all 0.2s;
+}
+
+.module-header h1:hover {
+  animation: txt-glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: -2px 0 rgba(255, 255, 255, 0.4), 2px 0 rgba(100, 100, 100, 0.4);
+}
+
+@keyframes txt-glitch {
+  0% {
+    transform: translate(0)
+  }
+
+  20% {
+    transform: translate(-2px, 1px)
+  }
+
+  40% {
+    transform: translate(-1px, -1px)
+  }
+
+  60% {
+    transform: translate(2px, 1px)
+  }
+
+  80% {
+    transform: translate(1px, -1px)
+  }
+
+  100% {
+    transform: translate(0)
+  }
+}
+
+.header-line {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--white-50), transparent);
+  margin-top: 12px;
+}
+
+/* Panels */
+.sys-panel {
+  background: var(--bg-panel);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  position: relative;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.sys-panel:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.05), inset 0 0 30px rgba(255, 255, 255, 0.03);
+}
+
+.panel-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--white-30);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+/* ── Selection ─────────────────────────────────────── */
+::selection {
+  background: var(--white-15);
+  color: var(--white);
+}
+
+/* ── Responsive ────────────────────────────────────── */
 @media (max-width: 1024px) {
   :root {
     --container-width: 100%;
@@ -199,7 +253,11 @@ pre {
   }
 
   .grid-schema {
-    background-size: 40px 40px;
+    background-size: 48px 48px;
+  }
+
+  .module-container {
+    padding: 30px 20px 50px;
   }
 }
 
@@ -214,12 +272,20 @@ pre {
   h4,
   h5,
   h6 {
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
   }
 
   .grid-schema {
-    background-size: 32px 32px;
-    opacity: 0.6;
+    background-size: 40px 40px;
+    opacity: 0.5;
+  }
+
+  .module-container {
+    padding: 24px 16px 40px;
+  }
+
+  .sys-panel {
+    padding: 20px;
   }
 }
 
@@ -229,21 +295,16 @@ pre {
     min-width: 280px;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    letter-spacing: 0.02em;
-  }
-
   .grid-schema {
-    background-size: 24px 24px;
-    opacity: 0.4;
+    background-size: 32px 32px;
+    opacity: 0.3;
   }
 
   ::-webkit-scrollbar {
-    width: 3px;
+    width: 2px;
+  }
+
+  .module-container {
+    padding: 20px 12px 30px;
   }
 }
