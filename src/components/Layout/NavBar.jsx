@@ -61,7 +61,7 @@ const NavBar = () => {
                         <div className="orbit-eye-ring" />
                         <div className="orbit-eye-pupil" ref={pupilRef} />
                     </div>
-                    <span className="brand-text">VORTEX_ALPHA</span>
+                    <span className="brand-text">Smarth Sharma</span>
                 </div>
                 <ul className="nav-menu">
                     {navItems.map(item => (
