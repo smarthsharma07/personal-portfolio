@@ -1,33 +1,81 @@
-import React, { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
-import SystemShell from './components/Layout/SystemShell'
-import BootSequence from './components/BootSequence'
+import { useEffect } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import SystemModule from './modules/SystemModule'
-import HardwareModule from './modules/HardwareModule'
-import MLModule from './modules/MLModule'
-import SoftwareModule from './modules/SoftwareModule'
-import GamesModule from './modules/GamesModule'
+import Starfield from './components/background/Starfield';
+import Mountains from './components/background/Mountains';
+import CustomCursor from './components/ui/CustomCursor';
+import Navbar from './components/ui/Navbar';
 
-function App() {
-  const [booted, setBooted] = useState(false)
+import HeroSection from './sections/HeroSection';
+import AboutSection from './sections/AboutSection';
+import SkillsSection from './sections/SkillsSection';
+import ProjectsSection from './sections/ProjectsSection';
+import Footer from './sections/Footer';
+
+import './App.css';
+
+gsap.registerPlugin(ScrollTrigger);
+
+/**
+ * Main App — Mountain Space Portfolio
+ * Orchestrates all sections with shared background layers.
+ */
+export default function App() {
+  useEffect(() => {
+    // Refresh ScrollTrigger on load
+    ScrollTrigger.refresh();
+
+    // Smooth scroll-linked opacity for mountains
+    gsap.to('.mountains-container', {
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top bottom',
+        end: 'top top',
+        scrub: true,
+      },
+      opacity: 0.3,
+      ease: 'none',
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, []);
 
   return (
-    <div className="app-root">
-      {!booted && <BootSequence onComplete={() => setBooted(true)} />}
-      {booted && (
-        <Routes>
-          <Route path="/" element={<SystemShell />}>
-            <Route index element={<SystemModule />} />
-            <Route path="hardware" element={<HardwareModule />} />
-            <Route path="ml" element={<MLModule />} />
-            <Route path="software" element={<SoftwareModule />} />
-            <Route path="games" element={<GamesModule />} />
-          </Route>
-        </Routes>
-      )}
-    </div>
-  )
-}
+    <>
+      {/* Background layers — fixed behind everything */}
+      <Starfield />
+      <Mountains />
 
-export default App
+      {/* Custom cursor */}
+      <CustomCursor />
+
+      {/* Navigation */}
+      <Navbar />
+
+      {/* Content sections */}
+      <main>
+        <HeroSection />
+
+        {/* Divider line between hero and about */}
+        <div className="section-divider" />
+
+        <AboutSection />
+
+        <div className="section-divider" />
+
+        <SkillsSection />
+
+        <div className="section-divider" />
+
+        <ProjectsSection />
+
+        <div className="section-divider" />
+
+        <Footer />
+      </main>
+    </>
+  );
+}

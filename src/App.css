@@ -1,0 +1,45 @@
+/* ===== App-level Layout ===== */
+
+main {
+  position: relative;
+  z-index: 2;
+}
+
+/* Section divider — subtle horizontal gradient line */
+.section-divider {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 clamp(24px, 4vw, 48px);
+  height: 1px;
+  position: relative;
+  z-index: 2;
+}
+
+.section-divider::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 30%,
+    rgba(255, 255, 255, 0.06) 70%,
+    transparent 100%
+  );
+}
+
+/* Page load animation */
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+main {
+  animation: page-fade-in 0.8s ease-out;
+}

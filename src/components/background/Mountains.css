@@ -1,0 +1,89 @@
+.mountains-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60vh;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.mountain-atmosphere {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.01) 40%,
+    rgba(255, 255, 255, 0.02) 60%,
+    transparent
+  );
+  z-index: 0;
+}
+
+.mountain-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.mountain-layer path {
+  transition: fill 0.3s ease;
+}
+
+/* Layer 5 — Farthest: lightest */
+.mountain-layer-5 {
+  z-index: 1;
+}
+.mountain-layer-5 path {
+  fill: rgba(255, 255, 255, 0.03);
+}
+
+/* Layer 4 */
+.mountain-layer-4 {
+  z-index: 2;
+}
+.mountain-layer-4 path {
+  fill: rgba(255, 255, 255, 0.025);
+}
+
+/* Layer 3 */
+.mountain-layer-3 {
+  z-index: 3;
+}
+.mountain-layer-3 path {
+  fill: rgba(255, 255, 255, 0.02);
+}
+
+/* Layer 2 */
+.mountain-layer-2 {
+  z-index: 4;
+}
+.mountain-layer-2 path {
+  fill: rgba(255, 255, 255, 0.015);
+}
+
+/* Layer 1 — Closest: darkest (nearly black silhouette) */
+.mountain-layer-1 {
+  z-index: 5;
+}
+.mountain-layer-1 path {
+  fill: rgba(255, 255, 255, 0.008);
+}
+
+.mountain-ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, #000000);
+  z-index: 6;
+}

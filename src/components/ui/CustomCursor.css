@@ -1,0 +1,57 @@
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  will-change: transform;
+}
+
+.cursor-dot.visible,
+.cursor-ring.visible {
+  opacity: 1;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+              0 0 20px rgba(255, 255, 255, 0.2);
+  transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease, background 0.3s ease;
+}
+
+.cursor-dot.hovering {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.3s ease,
+              opacity 0.3s ease;
+}
+
+.cursor-ring.hovering {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Hide on mobile / touch */
+@media (hover: none) and (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+}
