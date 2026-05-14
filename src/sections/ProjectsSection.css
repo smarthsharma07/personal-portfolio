@@ -9,13 +9,23 @@
 }
 
 .projects__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  overflow-x: auto;
   gap: 24px;
+  padding-bottom: 32px;
+  -webkit-overflow-scrolling: touch;
+  /* Hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.projects__grid::-webkit-scrollbar {
+  display: none;
 }
 
 /* ===== PROJECT CARD ===== */
 .projects__card {
+  flex: 0 0 clamp(320px, 80vw, 450px);
   position: relative;
   padding: 0;
   overflow: hidden;
@@ -292,10 +302,6 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .projects__grid {
-    grid-template-columns: 1fr;
-  }
-
   .project-modal {
     width: 95%;
     max-height: 90vh;

@@ -26,17 +26,8 @@ export default function App() {
     // Refresh ScrollTrigger on load
     ScrollTrigger.refresh();
 
-    // Smooth scroll-linked opacity for mountains
-    gsap.to('.mountains-container', {
-      scrollTrigger: {
-        trigger: '#about',
-        start: 'top bottom',
-        end: 'top top',
-        scrub: true,
-      },
-      opacity: 0.3,
-      ease: 'none',
-    });
+    // Refresh ScrollTrigger on load
+    ScrollTrigger.refresh();
 
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
@@ -47,7 +38,6 @@ export default function App() {
     <>
       {/* Background layers — fixed behind everything */}
       <Starfield />
-      <Mountains />
 
       {/* Custom cursor */}
       <CustomCursor />

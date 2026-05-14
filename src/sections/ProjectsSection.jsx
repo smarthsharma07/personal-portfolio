@@ -7,6 +7,25 @@ import './ProjectsSection.css';
  */
 
 const PROJECTS = [
+  /* 
+  =========================================
+  BOILERPLATE: HOW TO ADD A NEW PROJECT
+  =========================================
+  Copy the block below and paste it into this array to add a new project.
+  Make sure to give it a unique `id`.
+
+  {
+    id: 'project-X', // Update this ID (e.g., project-6)
+    title: 'Your Project Title',
+    domain: 'Software', // e.g., 'Software', 'AI / ML', 'Hardware'
+    shortDesc: 'A brief 1-sentence summary of the project.',
+    longDesc: 'A full detailed description of what you built, the problems you solved, and the impact.',
+    tech: ['React', 'Node.js', 'Python'], // Array of tech stack tags
+    links: { github: 'https://github.com/...', live: 'https://...' }, // Optional links
+    images: ['/project-screenshot-1.png'], // Add image paths from public folder (optional)
+  },
+  =========================================
+  */
   {
     id: 'project-1',
     title: 'Food Recommendation Engine',
@@ -110,6 +129,39 @@ export default function ProjectsSection() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
+  const gridRef = useRef(null);
+  const scrollRef = useRef({ isHovering: false });
+
+  useEffect(() => {
+    let animationFrameId;
+
+    const handleScroll = () => {
+      if (!scrollRef.current.isHovering && gridRef.current) {
+        const el = gridRef.current;
+        
+        el.scrollLeft += 1; // Auto scroll speed
+
+        // Infinite loop effect: if we scroll past half the duplicated content, jump back
+        // The scrollWidth is 2x the normal width because we render PROJECTS twice
+        if (el.scrollLeft >= el.scrollWidth / 2) {
+          el.scrollLeft -= el.scrollWidth / 2;
+        }
+      }
+      animationFrameId = requestAnimationFrame(handleScroll);
+    };
+
+    animationFrameId = requestAnimationFrame(handleScroll);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, []);
+
+  const handleMouseEnter = () => {
+    scrollRef.current.isHovering = true;
+  };
+
+  const handleMouseLeave = () => {
+    scrollRef.current.isHovering = false;
+  };
+
   return (
     <section className="section projects-section" id="projects" ref={sectionRef}>
       <div className="section-inner">
@@ -121,10 +173,15 @@ export default function ProjectsSection() {
           </h2>
         </div>
 
-        <div className="projects__grid stagger-children">
-          {PROJECTS.map((project) => (
+        <div 
+          className="projects__grid stagger-children"
+          ref={gridRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {[...PROJECTS, ...PROJECTS].map((project, index) => (
             <div
-              key={project.id}
+              key={`${project.id}-${index}`}
               className="projects__card glass-card"
               data-cursor-hover
               onClick={() => openProject(project)}

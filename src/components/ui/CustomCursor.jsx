@@ -24,7 +24,7 @@ export default function CustomCursor() {
       if (!isVisible) setIsVisible(true);
 
       // Dot follows cursor instantly
-      dot.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
+      if (dot) dot.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
     };
 
     const onMouseEnter = () => setIsVisible(true);
@@ -35,7 +35,9 @@ export default function CustomCursor() {
     const animateRing = () => {
       ringX += (mouseX - ringX) * 0.12;
       ringY += (mouseY - ringY) * 0.12;
-      ring.style.transform = `translate(${ringX - 20}px, ${ringY - 20}px)`;
+      
+      if (ring) ring.style.transform = `translate(${ringX - 20}px, ${ringY - 20}px)`;
+      
       raf = requestAnimationFrame(animateRing);
     };
 

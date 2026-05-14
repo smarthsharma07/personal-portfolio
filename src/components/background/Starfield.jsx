@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import './Starfield.css';
 
 /**
- * Animated starfield background with twinkling stars and 
- * occasional shooting stars. Renders on a canvas for performance.
+ * Animated starfield background with twinkling stars,
+ * dust particles, shooting stars, and interactive constellations.
  */
 export default function Starfield() {
   const canvasRef = useRef(null);
@@ -14,10 +14,24 @@ export default function Starfield() {
     let animationId;
     let stars = [];
     let shootingStars = [];
+    let mouse = { x: -1000, y: -1000 };
+
+    const handleMouseMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseleave', handleMouseLeave);
 
     const resize = () => {
       canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight * 3; // Cover full scroll height
+      canvas.height = window.innerHeight; // Fixed CSS squash distortion
     };
 
     const createStars = () => {
@@ -31,6 +45,7 @@ export default function Starfield() {
           opacity: Math.random() * 0.8 + 0.2,
           twinkleSpeed: Math.random() * 0.02 + 0.005,
           twinkleOffset: Math.random() * Math.PI * 2,
+          isDust: Math.random() > 0.9, // 10% are dust particles
         });
       }
     };
@@ -57,22 +72,62 @@ export default function Starfield() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       time += 1;
 
-      // Draw stars with twinkling
-      stars.forEach((star) => {
+      // Draw stars, dust, and constellations
+      stars.forEach((star, index) => {
         const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset);
-        const currentOpacity = star.opacity * (0.5 + twinkle * 0.5);
-
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity})`;
-        ctx.fill();
-
-        // Add subtle glow to brighter stars
-        if (star.radius > 1.2) {
+        
+        if (star.isDust) {
+          star.y -= 0.2; 
+          if (star.y < 0) star.y = canvas.height;
+          
+          const currentOpacity = star.opacity * (0.3 + twinkle * 0.2);
           ctx.beginPath();
           ctx.arc(star.x, star.y, star.radius * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity * 0.1})`;
+          ctx.fillStyle = `rgba(0, 255, 204, ${currentOpacity * 0.15})`;
           ctx.fill();
+        } else {
+          // Normal star
+          const currentOpacity = star.opacity * (0.5 + twinkle * 0.5);
+
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity})`;
+          ctx.fill();
+
+          if (star.radius > 1.2) {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius * 3, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity * 0.1})`;
+            ctx.fill();
+          }
+
+          // Interactive Constellations (Draw lines between nearby stars and mouse)
+          const dxMouse = mouse.x - star.x;
+          const dyMouse = mouse.y - star.y;
+          const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+          
+          if (distMouse < 150) {
+            // Check nearby stars
+            for (let j = index + 1; j < stars.length; j++) {
+              const otherStar = stars[j];
+              if (!otherStar.isDust) {
+                const dx = otherStar.x - star.x;
+                const dy = otherStar.y - star.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 80) {
+                  ctx.beginPath();
+                  ctx.moveTo(star.x, star.y);
+                  ctx.lineTo(otherStar.x, otherStar.y);
+                  // Line opacity depends on distance to mouse
+                  const lineOpacity = 1 - (distMouse / 150);
+                  ctx.strokeStyle = `rgba(0, 255, 204, ${lineOpacity * 0.4})`;
+                  ctx.lineWidth = 0.5;
+                  ctx.stroke();
+                }
+              }
+            }
+          }
         }
       });
 
@@ -100,7 +155,6 @@ export default function Starfield() {
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
-        // Head glow
         ctx.beginPath();
         ctx.arc(s.x, s.y, 2, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
@@ -124,6 +178,8 @@ export default function Starfield() {
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
